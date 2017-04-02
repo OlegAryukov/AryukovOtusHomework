@@ -41,7 +41,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>ru.otus.lottery.Main</mainClass>
+                            <mainClass>ru.aryukov.lottery.Main</mainClass>
                         </manifest>
                     </archive>
                     <finalName>${project.name}_${java.version}_${os.name}</finalName>
