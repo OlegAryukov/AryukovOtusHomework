@@ -10,11 +10,15 @@ import java.lang.reflect.Modifier;
 import static java.lang.System.getProperty;
 
 /**
+ * Class for getting object size.
  * Created by olega on 10.04.17.
  */
 public class ObjectSizeInstrument {
 
-    private static final boolean CURRENT_JVM_64_BIT = getProperty("java.vm.name", "32").contains("64");
+    /**
+     * Constants for primitive types.
+     */
+    private static final boolean IS_CURRENT_JVM_64_BIT = getProperty("java.vm.name", "32").contains("64");
     private static final int LONG_SIZE = 8;
     private static final int INT_SIZE = 4;
     private static final int BYTE_SIZE = 1;
@@ -25,15 +29,36 @@ public class ObjectSizeInstrument {
     private static final int DOUBLE_SIZE = 8;
     private static final int ALIGNMENT = 8;
 
+    /**
+     * Public method for mesurment.
+     * @param o object witch size we wont.
+     * @return long - size of object o.
+     * @throws IllegalAccessException exception.
+     */
     public static long sizeOf(Object o) throws IllegalAccessException {
-        System.out.println(CURRENT_JVM_64_BIT);
-        return sizeOf(o, CURRENT_JVM_64_BIT);
+        System.out.println(IS_CURRENT_JVM_64_BIT);
+        return sizeOf(o, IS_CURRENT_JVM_64_BIT);
     }
 
-    private static long sizeOf(Object o, boolean jvm64bit) throws IllegalAccessException {
+    /**
+     * Public method for mesurment, if we know a bit of our system.
+     * @param o object witch size we wont.
+     * @param jvm64bit boolean flag, if system is 64bit - true.
+     * @return long - size of object o.
+     * @throws IllegalAccessException exception.
+     */
+    public static long sizeOf(Object o, boolean jvm64bit) throws IllegalAccessException {
         return sizeOf(o, jvm64bit, new HashSet<>());
     }
 
+    /**
+     * Private method for calculating object size.
+     * @param o object.
+     * @param jvm64bit boolean flag.
+     * @param visited HashSet for nested objects.
+     * @return long - size of object o.
+     * @throws IllegalAccessException exception.
+     */
     private static long sizeOf(Object o, boolean jvm64bit, Set<ObjectWrapper> visited) throws IllegalAccessException {
         if (o == null) {
             return 0;
@@ -96,24 +121,31 @@ public class ObjectSizeInstrument {
                     field.setAccessible(true);
                 }
                 String fieldType = field.getGenericType().toString();
-                if (fieldType.equals("long")) {
-                    size += LONG_SIZE;
-                } else if (fieldType.equals("int")) {
-                    size += INT_SIZE;
-                } else if (fieldType.equals("byte")) {
-                    size += BYTE_SIZE;
-                } else if (fieldType.equals("boolean")) {
-                    size += BOOLEAN_SIZE;
-                } else if (fieldType.equals("char")) {
-                    size += CHAR_SIZE;
-                } else if (fieldType.equals("short")) {
-                    size += SHORT_SIZE;
-                } else if (fieldType.equals("float")) {
-                    size += FLOAT_SIZE;
-                } else if (fieldType.equals("double")) {
-                    size += DOUBLE_SIZE;
-                } else {
-                    size += sizeOf(field.get(o), jvm64bit, visited) + referenceSize;
+                switch (fieldType) {
+                    case "long":
+                        size += LONG_SIZE;
+                        break;
+                    case "int":
+                        size += INT_SIZE;
+                        break;
+                    case "byte":
+                        size += BYTE_SIZE;
+                        break;
+                    case "boolean":
+                        size += BOOLEAN_SIZE;
+                        break;
+                    case "char":
+                        size += CHAR_SIZE;
+                        break;
+                    case "float":
+                        size += FLOAT_SIZE;
+                        break;
+                    case "double":
+                        size += FLOAT_SIZE;
+                        break;
+                    default:
+                        size += sizeOf(field.get(o), jvm64bit, visited) + referenceSize;
+                        break;
                 }
             }
         }
@@ -123,11 +155,18 @@ public class ObjectSizeInstrument {
         return size;
     }
 
+    /**
+     * Class - wrapper for object.
+     */
     private static final class ObjectWrapper {
 
         private final Object object;
 
-        public ObjectWrapper(Object object) {
+        /**
+         * Constructor.
+         * @param object object.
+         */
+        ObjectWrapper(Object object) {
             this.object = object;
         }
 

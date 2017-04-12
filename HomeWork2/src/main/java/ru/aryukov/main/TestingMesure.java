@@ -2,21 +2,44 @@ package ru.aryukov.main;
 
 import ru.aryukov.mesurment.ObjectSizeInstrument;
 
+import java.lang.management.ManagementFactory;
+
 /**
  * Created by olega on 10.04.17.
  */
 public class TestingMesure {
-    public static void main(String[] args) {
-        int[][] a = new int[100][2];
-        int[][] b = new int[2][100];
-        String str = new String("Hello world Java!");
-        try {
-            System.out.println(ObjectSizeInstrument.sizeOf(a));
-            System.out.println(ObjectSizeInstrument.sizeOf(b));
-            System.out.println(ObjectSizeInstrument.sizeOf(str));
+    /**
+     * Main method.
+     * @param args params.
+     * @throws InterruptedException exception.
+     * @throws IllegalAccessException exception.
+     */
+    public static void main(String... args) throws InterruptedException, IllegalAccessException {
+        System.out.println("Starting pid: " + ManagementFactory.getRuntimeMXBean().getName());
+        //Runtime runtime = Runtime.getRuntime();
+        //RuntimeMXBean runtimeMXBean = ManagementFactory.getRuntimeMXBean();
 
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
+        int size = 2 * 1024 * 1024;
+        Object[] array = new Object[size];
+        System.out.println("Array of size: " + array.length + " created");
+        System.out.println("Empty Array: " + ObjectSizeInstrument.sizeOf(array));
+        Thread.sleep(10 * 1000);
+
+        int n = 0;
+        System.out.println("Starting the loop");
+        while (n < Integer.MAX_VALUE) {
+            int i = n % size;
+            array[i] = new String(""); //no String pool
+            n++;
+            if (n % 1024 == 0) {
+                Thread.sleep(1);
+            }
+            if (n % size == 0) {
+                System.out.println("Fill Array: " + ObjectSizeInstrument.sizeOf(array));
+                System.out.println("Created " + n + " objects");
+                System.out.println("Creating new array");
+                array = new Object[size];
+            }
         }
     }
 }
