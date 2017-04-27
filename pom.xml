@@ -16,6 +16,7 @@
         <module>HomeWork1</module>
         <module>HomeWork2</module>
         <module>Homework3</module>
+        <module>HomeWork4</module>
     </modules>
 
     <dependencies>
