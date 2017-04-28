@@ -3,10 +3,25 @@
 ### Example user template
 
 # IntelliJ project files
-*/.idea
+*.idea
 *.iml
-*/.target
+*target
 out
 gen
 Будет удалено .gitignore
 Будет удалено .idea/
+Будет удалено .idea/checkstyle-idea.xml
+Будет удалено .idea/compiler.xml
+Будет удалено .idea/copyright/
+Будет удалено .idea/libraries/Maven__junit_junit_4_12.xml
+Будет удалено .idea/libraries/Maven__org_hamcrest_hamcrest_core_1_3.xml
+Будет удалено .idea/misc.xml
+Будет удалено .idea/modules.xml
+Будет удалено .idea/sonarlint/
+Будет удалено .idea/vcs.xml
+Будет удалено .idea/workspace.xml
+Будет удалено HomeWork1/emails.csv
+Будет удалено HomeWork1/target/
+Будет удалено HomeWork2/target/
+Будет удалено HomeWork4/src/
+Будет удалено target/
