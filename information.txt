@@ -1,0 +1,25 @@
+-injars 'D:\JavaCourse\MyCod\Otus\target\otus-course-1.0-SNAPSHOT_proguard_base.jar'(!META-INF/maven/**)
+-outjars 'D:\JavaCourse\MyCod\Otus\target\otus-course-1.0-SNAPSHOT.jar'
+
+-libraryjars 'C:\Users\oaryukov\.m2\repository\net\sf\opencsv\opencsv\2.3\opencsv-2.3.jar'
+-libraryjars 'C:\Users\oaryukov\.m2\repository\junit\junit\4.12\junit-4.12.jar'
+-libraryjars 'C:\Users\oaryukov\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar'
+-libraryjars 'C:\Program Files\Java\jdk1.8.0_101\jre\lib\rt.jar'
+-libraryjars 'C:\Program Files\Java\jdk1.8.0_101\jre\lib\jce.jar'
+-libraryjars 'C:\Program Files\Java\jdk1.8.0_101\jre\lib\ext\sunjce_provider.jar'
+
+-allowaccessmodification
+-printmapping 'D:\JavaCourse\MyCod\Otus\target\proguard_map.txt'
+-overloadaggressively
+-flattenpackagehierarchy ru.aryukov.lottery
+-repackageclasses ''
+-adaptclassstrings
+-adaptresourcefilecontents **.xml
+-printconfiguration 'D:\JavaCourse\MyCod\Otus\information.txt'
+-printseeds 'D:\JavaCourse\MyCod\Otus\target\proguard_seed.txt'
+
+
+# Don't obfuscate or remove your entry point
+-keep public class ru.aryukov.lottery.Main {
+    public static void main(java.lang.String[]);
+}
