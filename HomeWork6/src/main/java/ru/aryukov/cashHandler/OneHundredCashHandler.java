@@ -7,17 +7,17 @@ import ru.aryukov.request.Request;
 import java.util.List;
 
 /**
- * Created by oaryukov on 28.06.2017.
+ * Created by oaryukov on 29.06.2017.
  */
-public class FiveThousandCashHandler extends CashHandler {
-    public FiveThousandCashHandler(int cashNominal, int level) {
+public class OneHundredCashHandler extends CashHandler {
+    public OneHundredCashHandler(int cashNominal, int level) {
         super(cashNominal, level);
     }
 
     @Override
     public void handle(List<BaseCashHolder> cashHolderList, Request request) {
         if(request.getAction().getType().equals("GET")){
-            if(request.getSum() >= 5000){
+            if(request.getSum() >= 100){
                 getCashFromCashHolder(cashHolderList, request);
                 if(request.getSum() > 0){
                     if(getNext() != null){
@@ -26,8 +26,8 @@ public class FiveThousandCashHandler extends CashHandler {
                 }
             }
         }else if(request.getAction().getType().equals("PUT")){
-            if (request.getCashIn().containsKey(CashType.FIVE_THOUSAND)){
-                putCashToCashHolder(cashHolderList, request, CashType.FIVE_THOUSAND);
+            if (request.getCashIn().containsKey(CashType.ONE_HUNDRED)){
+                putCashToCashHolder(cashHolderList, request, CashType.ONE_HUNDRED);
                 if(request.getSum() > 0){
                     if(getNext() != null){
                         getNext().handle(cashHolderList, request);
@@ -43,7 +43,6 @@ public class FiveThousandCashHandler extends CashHandler {
         }
     }
 
-
     @Override
     public CashHandler getNext() {
         return super.getNext();
@@ -52,5 +51,20 @@ public class FiveThousandCashHandler extends CashHandler {
     @Override
     public void setNext(CashHandler next) {
         super.setNext(next);
+    }
+
+    @Override
+    public int getCashNominal() {
+        return super.getCashNominal();
+    }
+
+    @Override
+    public int getLevel() {
+        return super.getLevel();
+    }
+
+    @Override
+    public void getCashFromCashHolder(List<BaseCashHolder> cashHolderList, Request request) {
+        super.getCashFromCashHolder(cashHolderList, request);
     }
 }
