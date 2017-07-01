@@ -32,7 +32,7 @@ public class CashMachine {
         cashMachine.printCash();
         System.out.println("Сумма в банкомате: " + cashMachine.getTotalSum() + " рублей");
 
-        cashMachine.putCash(33750);
+        cashMachine.putCash(370050);
         System.out.println("После внесения");
         cashMachine.printCash();
         System.out.println("Сумма в банкомате: " + cashMachine.getTotalSum() + " рублей");
@@ -63,12 +63,21 @@ public class CashMachine {
         cashHandler = fiveThousandCashHandler;
     }
 
+    /**
+     * Получение наличных
+     * @param sum сумма
+     */
     public void getCash(int sum){
         if(isPossibleGet(sum)){
             Request request = new Request(RequestAction.GET, sum);
             cashHandler.handle(cashHolderList, request);
         }
     }
+
+    /**
+     * Внесение наличных
+     * @param sum сумма
+     */
     public void putCash(int sum){
         if(sum % 50 == 0){
             Request request = new Request(RequestAction.PUT, sum, prepearForPut(sum));
@@ -103,7 +112,7 @@ public class CashMachine {
         int tmpSum = sum;
         for (BaseCashHolder holder:cashHolderList) {
             int count = tmpSum / holder.getType().getNominal();
-            if(count <= (holder.getMaxHolderSize() - holder.getCount())){
+            if(count > 0 && count <= (holder.getMaxHolderSize() - holder.getCount())){
                 tmpSum -=(count * holder.getType().getNominal());
                 result.put(holder.getType(),count);
             }else {
