@@ -15,6 +15,7 @@
         <module name="HomeWork4" />
         <module name="HomeWork5" />
         <module name="HomeWork6" />
+        <module name="HomeWork8" />
         <module name="HomeWork9" />
       </profile>
     </annotationProcessing>
@@ -27,6 +28,7 @@
       <module name="HomeWork4" target="1.8" />
       <module name="HomeWork5" target="1.8" />
       <module name="HomeWork6" target="1.8" />
+      <module name="HomeWork8" target="1.8" />
       <module name="HomeWork9" target="1.8" />
       <module name="Otus" target="1.8" />
     </bytecodeTargetLevel>
