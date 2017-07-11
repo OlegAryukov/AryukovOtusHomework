@@ -32,7 +32,6 @@ public class TestJsonWrite {
         ArrayTypeObject arrayTypeObject = new ArrayTypeObject();
         Gson mapper = new Gson();
         String expectedJsonStr = mapper.toJson(arrayTypeObject);
-
         JsonWriter writer = new JsonWriter();
         String testStr = writer.convertToJason(arrayTypeObject);
         System.out.println(expectedJsonStr);

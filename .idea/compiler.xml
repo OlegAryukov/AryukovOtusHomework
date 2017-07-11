@@ -31,6 +31,7 @@
       <module name="HomeWork8" target="1.8" />
       <module name="HomeWork9" target="1.8" />
       <module name="Otus" target="1.8" />
+      <module name="Otus_java_2017_04_Aryukov" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
