@@ -1,10 +1,11 @@
-package ru.aryukov;
+package ru.aryukov.functionalIntfaces;
 
 import java.sql.PreparedStatement;
 
 /**
  * Created by oaryukov on 10.07.2017.
  */
-public interface ParamsUtils {
+@FunctionalInterface
+public interface ParamsSetInterface {
     void setParams(PreparedStatement ps) throws Exception;
 }

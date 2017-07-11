@@ -71,10 +71,10 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
+        return "User data: [ " +
                 "id=" + id +
-                ", name='" + name + '\'' +
-                ", age=" + age +
-                '}';
+                " : name='" + name + '\'' +
+                " : age=" + age +
+                " ]";
     }
 }
