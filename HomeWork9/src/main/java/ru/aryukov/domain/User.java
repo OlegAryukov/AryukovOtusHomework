@@ -2,16 +2,12 @@ package ru.aryukov.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 
 /**
  * Created by oaryukov on 08.06.2017.
  */
 @Entity(name = "user")
-public class User {
-
-    @Id
-    private Long id;
+public class User extends DataSet{
 
     @Column(name = "name")
     private String name;
@@ -30,14 +26,6 @@ public class User {
 
     public void setAge(int age) {
         this.age = age;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {

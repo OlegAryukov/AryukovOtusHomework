@@ -7,11 +7,8 @@ import java.lang.reflect.Field;
  * Created by oaryukov on 02.07.2017.
  */
 public class JsonWriter {
-    private final StringBuilder jsonStr;
-    private Field field;
 
     public JsonWriter() {
-        jsonStr = new StringBuilder();
     }
 
     public String convertToJason(Object o) throws IllegalAccessException {
