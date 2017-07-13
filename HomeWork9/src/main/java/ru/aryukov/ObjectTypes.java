@@ -10,13 +10,21 @@ enum  ObjectTypes {
     INT("java.lang.Integer");
 
     private final String fullName;
+    //private final String code;
 
-    public static ObjectTypes byCode(String fullName) {
-        return ObjectTypes.valueOf(fullName);
+    public static ObjectTypes byFullName(String fullName) {
+        ObjectTypes res = null;
+        for (ObjectTypes objectTypes:ObjectTypes.values()) {
+            if (objectTypes.getFullName().equals(fullName)){
+                res = objectTypes;
+            }
+        }
+        return res;
     }
 
-    ObjectTypes(String sysCode) {
-        this.fullName = sysCode;
+    ObjectTypes(String fullName/*, String code*/) {
+        this.fullName = fullName;
+        //this.code = code;
     }
 
     public String getFullName() {

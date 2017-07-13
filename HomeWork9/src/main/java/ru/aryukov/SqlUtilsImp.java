@@ -48,33 +48,9 @@ public class SqlUtilsImp implements SqlUtils {
         getObjectStructureInfo(object);
 
         final String insert = insert();
-        update(insert, ps -> {
-            int columnIdx = 0;
-            for (final Field field : columnsValueList) {
-                final String type = field.getType().getTypeName();
-                try {
-                    Object value = getFieldValue(field, object);
-                    if (value != null) {
-                        switch (type) {
-                            case "java.lang.Long":
-                                ps.setLong(++columnIdx, (Long) value);
-                                break;
-                            case "java.lang.String":
-                                ps.setString(++columnIdx, (String) value);
-                                break;
-                            case "java.lang.Integer":
-                                ps.setInt(++columnIdx, (int) value);
-                                break;
-                            default:
-                                throw new IllegalArgumentException("Unsupported data type:" + type);
-                        }
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    throw e;
-                }
-            }
-        });
+        update(insert, ps ->
+            setParamsInSaveQuery(object, ps)
+        );
     }
 
     @Override
@@ -83,55 +59,93 @@ public class SqlUtilsImp implements SqlUtils {
         final String select = select();
 
         queryExecutor(select, paramsSet -> {
-            for (int idx = 0; idx < idList.size(); idx++) {
-                final Field fieldId = idList.get(idx);
-                ObjectTypes type = ObjectTypes.byCode(fieldId.getName());
+            setParamsInLoadQuery(idValues, paramsSet);
+        }, rs -> {
+            return getResultObject(object, rs);
+        });
+    }
+
+    private Object getResultObject(Object object, ResultSet rs) throws SQLException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        while (rs.next()) {
+            for (final Field field : columnsList) {
+                ObjectTypes type = ObjectTypes.byFullName(field.getType().getCanonicalName());
                 try {
                     switch (type) {
                         case LONG:
-                            paramsSet.setLong(idx + 1, (Long) idValues.get(fieldId.getName()));
+                            setFieldValue(field, object, rs.getLong(field.getName()));
                             break;
-                        case "java.lang.String":
-                            paramsSet.setString(idx + 1, (String) idValues.get(fieldId.getName()));
+                        case STRING:
+                            setFieldValue(field, object, rs.getString(field.getName()));
                             break;
-                        case "java.lang.Integer":
-                            paramsSet.setInt(idx + 1, (Integer) idValues.get(fieldId.getName()));
+                        case INT:
+                            setFieldValue(field, object, rs.getInt(field.getName()));
                             break;
                         default:
-                            throw new IllegalArgumentException("Unsupported data type:" + type);
+                            throw new IllegalArgumentException("Unsupported type:" + type);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                     throw e;
                 }
-
             }
-        }, rs -> {
-            while (rs.next()) {
-                for (final Field field : columnsList) {
-                    final Class<?> type = field.getType();
-                    try {
-                        switch (type.getTypeName()) {
-                            case ObjectTypes.LONG.getFullName():
-                                setFieldValue(field, object, rs.getLong(field.getName()));
-                                break;
-                            case "java.lang.String":
-                                setFieldValue(field, object, rs.getString(field.getName()));
-                                break;
-                            case "java.lang.Integer":
-                                setFieldValue(field, object, rs.getInt(field.getName()));
-                                break;
-                            default:
-                                throw new IllegalArgumentException("Unsupported data type:" + type);
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        throw e;
+        }
+        return null;
+    }
+
+    private void setParamsInSaveQuery(Object object, PreparedStatement ps) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, SQLException {
+        int columnIdx = 0;
+        for (final Field field : columnsValueList) {
+            ObjectTypes type = ObjectTypes.byFullName(field.getType().getCanonicalName());
+            try {
+                Object value = getFieldValue(field, object);
+                if (value != null) {
+                    switch (type) {
+                        case LONG:
+                            ps.setLong(++columnIdx, (Long) value);
+                            break;
+                        case STRING:
+                            ps.setString(++columnIdx, (String) value);
+                            break;
+                        case INT:
+                            ps.setInt(++columnIdx, (int) value);
+                            break;
+                        default:
+                            throw new IllegalArgumentException("Unsupported data type:" + type);
                     }
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw e;
             }
-            return null;
-        })
+        }
+    }
+
+    private void setParamsInLoadQuery(Map<String, Object> idValues, PreparedStatement paramsSet) throws SQLException {
+
+        for (int idx = 0; idx < idList.size(); idx++) {
+            final Field fieldId = idList.get(idx);
+            ObjectTypes type = ObjectTypes.byFullName(fieldId.getType().getCanonicalName());
+            try {
+                switch (type) {
+                    case LONG:
+                        paramsSet.setLong(idx + 1, (Long) idValues.get(fieldId.getName()));
+                        break;
+                    case STRING:
+                        paramsSet.setString(idx + 1, (String) idValues.get(fieldId.getName()));
+                        break;
+                    case INT:
+                        paramsSet.setInt(idx + 1, (Integer) idValues.get(fieldId.getName()));
+                        break;
+                    default:
+                        throw new IllegalArgumentException("Unsupported type:" + type);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw e;
+            }
+
+        }
+
     }
 
     private Object getFieldValue(Field field, Object object) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
