@@ -22,7 +22,7 @@ public class SqlUtilsTest {
     public void initTestTable() throws Exception {
         Connection connection = new ConnectionHelper().getConnection();
         sqlHelper = new SqlUtilsImp(connection);
-       sqlHelper.executeUpdate("delete from \"user\"", null);
+       sqlHelper.update("delete from user_entity", null);
     }
 
     @After
@@ -33,18 +33,18 @@ public class SqlUtilsTest {
     @Test
     public void queryExecutor() throws Exception {
         //final Long id = 123L;
-        final String userName = "userName1";
-        final Integer age = 10;
+        final String userName = "TestUser";
+        final Integer age = 30;
 
-        final String insert = "insert into \"user\"(name, age) values (?, ?)";
+        final String insert = "insert into user_entity(name, age) values (?, ?)";
 
-        sqlHelper.executeUpdate(insert, ps -> {
+        sqlHelper.update(insert, ps -> {
            // ps.setLong(1,id);
             ps.setString(1, userName);
             ps.setInt(2, age);
         });
 
-        final String select = "select * from \"user\"";
+        final String select = "select * from user_entity";
         User user = sqlHelper.queryExecutor(select, null, rs -> {
             User result = new User();
             while (rs.next()) {
@@ -69,7 +69,7 @@ public class SqlUtilsTest {
 
         sqlHelper.save(user);
 
-        final String select = "select * from \"user\"";
+        final String select = "select * from user_entity";
         final User userFact = sqlHelper.queryExecutor(select, null, rs -> {
             User result = new User();
             while (rs.next()) {
@@ -88,14 +88,14 @@ public class SqlUtilsTest {
     public void load() throws Exception {
         final String userName = "userName1";
         final Integer age = 10;
-        final String insert = "insert into \"user\"(name, age) values (?, ?)";
+        final String insert = "insert into user_entity(name, age) values (?, ?)";
 
-        sqlHelper.executeUpdate(insert, ps -> {
+        sqlHelper.update(insert, ps -> {
             ps.setString(1, userName);
             ps.setInt(2, age);
         });
 
-        final String select = "select * from \"user\"";
+        final String select = "select * from user_entity";
         final User user = sqlHelper.queryExecutor(select, null, rs -> {
             User result = new User();
             while (rs.next()) {

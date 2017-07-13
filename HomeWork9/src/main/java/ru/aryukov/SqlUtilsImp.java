@@ -26,6 +26,7 @@ import java.util.stream.Collectors;
 public class SqlUtilsImp implements SqlUtils {
     private final Connection connection;
 
+
     private String tableName = null;
     private List<Field> idList = new ArrayList<>();
     private List<Field> columnsList = new ArrayList<>();
@@ -46,7 +47,7 @@ public class SqlUtilsImp implements SqlUtils {
     public void save(Object object) throws Exception {
         getObjectStructureInfo(object);
 
-        final String insert = makeInsertSql();
+        final String insert = insert();
         update(insert, ps -> {
             int columnIdx = 0;
             for (final Field field : columnsValueList) {
@@ -79,15 +80,15 @@ public class SqlUtilsImp implements SqlUtils {
     @Override
     public void load(Object object, Map<String, Object> idValues) throws Exception {
         getObjectStructureInfo(object);
-        final String select = makeSelectSql();
+        final String select = select();
 
         queryExecutor(select, paramsSet -> {
             for (int idx = 0; idx < idList.size(); idx++) {
                 final Field fieldId = idList.get(idx);
-                final Class<?> type = fieldId.getType();
+                ObjectTypes type = ObjectTypes.byCode(fieldId.getName());
                 try {
-                    switch (type.getTypeName()) {
-                        case "java.lang.Long":
+                    switch (type) {
+                        case LONG:
                             paramsSet.setLong(idx + 1, (Long) idValues.get(fieldId.getName()));
                             break;
                         case "java.lang.String":
@@ -105,13 +106,13 @@ public class SqlUtilsImp implements SqlUtils {
                 }
 
             }
-        }, rs-> {
+        }, rs -> {
             while (rs.next()) {
                 for (final Field field : columnsList) {
                     final Class<?> type = field.getType();
                     try {
                         switch (type.getTypeName()) {
-                            case "java.lang.Long":
+                            case ObjectTypes.LONG.getFullName():
                                 setFieldValue(field, object, rs.getLong(field.getName()));
                                 break;
                             case "java.lang.String":
@@ -130,7 +131,7 @@ public class SqlUtilsImp implements SqlUtils {
                 }
             }
             return null;
-        });
+        })
     }
 
     private Object getFieldValue(Field field, Object object) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
@@ -147,7 +148,7 @@ public class SqlUtilsImp implements SqlUtils {
         method.invoke(object, value);
     }
 
-    private String makeInsertSql() {
+    private String insert() {
         final StringBuilder sbPlaces = new StringBuilder();
         for (int idx = 0; idx < columnsValueList.size(); idx++) {
             if (idx > 0) {
@@ -165,19 +166,18 @@ public class SqlUtilsImp implements SqlUtils {
         return insertSql;
     }
 
-    private String makeSelectSql() {
-        final StringBuilder sbIds = new StringBuilder();
+    private String select() {
+        final String selectSql = "select * from " + tableName +" where 1=1 \n";
+
+        final StringBuilder sb = new StringBuilder();
         for (Field id : idList) {
-            sbIds.append(" and ").append(id.getName()).append(" = ? \n");
+            sb.append(" and ").append(id.getName()).append(" = ? \n");
         }
-
-        final String selectSql = "select * from \"" + tableName +"\" where 1=1 \n" + sbIds.toString();
-
-        System.out.println("select sql:" + selectSql);
-        return selectSql;
+        System.out.println("select sql:" + selectSql + sb.toString());
+        return selectSql + sb.toString();
     }
 
-    private void update(String sql, ParamsSetInterface params) throws Exception {
+    public void update(String sql, ParamsSetInterface params) throws Exception {
         try(PreparedStatement ps = connection.prepareStatement(sql)) {
             if (params != null) {
                 params.setParams(ps);
@@ -191,7 +191,7 @@ public class SqlUtilsImp implements SqlUtils {
         }
     }
 
-    private  <T> T queryExecutor(String sql, ParamsSetInterface params, ResultSetInterface<T> resultSetInterface) throws Exception {
+    public <T> T queryExecutor(String sql, ParamsSetInterface params, ResultSetInterface<T> resultSetInterface) throws Exception {
         T result;
         try(PreparedStatement ps = connection.prepareStatement(sql)) {
             if (params != null) {
