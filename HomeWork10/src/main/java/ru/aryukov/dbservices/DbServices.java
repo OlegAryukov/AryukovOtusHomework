@@ -1,7 +1,8 @@
-package ru.aryukov;
+package ru.aryukov.dbservices;
 
 import ru.aryukov.domain.UserEntity;
 
+import java.sql.SQLException;
 import java.util.List;
 
 /**

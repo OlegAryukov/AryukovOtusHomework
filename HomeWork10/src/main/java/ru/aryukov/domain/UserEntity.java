@@ -24,11 +24,11 @@ public class UserEntity {
     private Integer age;
 
     @OneToOne(cascade = CascadeType.ALL)
-    //@JoinColumn(name="user_address_id")
+    @JoinColumn(name="address_id")
     private UserAddressEntity userAddressEntity;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<UserPhoneEntity> phoneDataSet = new ArrayList<>();
+    private List<UserPhoneEntity> userPhoneEntity = new ArrayList<>();
 
     public UserEntity() {
 
@@ -72,22 +72,26 @@ public class UserEntity {
         this.age = age;
     }
 
-    public List<UserPhoneEntity> getPhoneDataSet() {
-        return phoneDataSet;
+    public List<UserPhoneEntity> getUserPhoneEntity() {
+        return userPhoneEntity;
     }
 
-    public void setPhoneDataSet(List<UserPhoneEntity> phoneDataSet) {
-        this.phoneDataSet = phoneDataSet;
+    public void setUserPhoneEntity(List<UserPhoneEntity> userPhoneEntity) {
+        this.userPhoneEntity = userPhoneEntity;
     }
 
     @Override
     public String toString() {
-        return "UserDataSet{" +
+        StringBuilder result = new StringBuilder();
+        for (UserPhoneEntity userPhoneEntity:userPhoneEntity) {
+            result.append(userPhoneEntity.toString());
+        }
+        return "UserEntity{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", age=" + age +
-                ", userAddressEntity=" + userAddressEntity +
-                ", phoneDataSet=" + phoneDataSet +
+                ", userAddressEntity=" + userAddressEntity.toString() +
+                ", userPhoneEntity=" + result.toString() +
                 '}';
     }
 
@@ -104,15 +108,15 @@ public class UserEntity {
         if (userAddressEntity != null ? !userAddressEntity.equals(that.userAddressEntity) : that.userAddressEntity != null)
             return false;
 
-        if (phoneDataSet != null) {
-            if (that.phoneDataSet != null) {
-                return phoneDataSet.size() == that.phoneDataSet.size()
-                        && phoneDataSet.stream().filter(s -> that.phoneDataSet.contains(s)).collect(Collectors.toSet()).isEmpty();
+        if (userPhoneEntity != null) {
+            if (that.userPhoneEntity != null) {
+                return userPhoneEntity.size() == that.userPhoneEntity.size()
+                        && userPhoneEntity.stream().filter(s -> that.userPhoneEntity.contains(s)).collect(Collectors.toSet()).isEmpty();
             } else {
                 return false;
             }
         } else {
-            return that.phoneDataSet == null;
+            return that.userPhoneEntity == null;
         }
     }
 
@@ -122,7 +126,7 @@ public class UserEntity {
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (age != null ? age.hashCode() : 0);
         result = 31 * result + (userAddressEntity != null ? userAddressEntity.hashCode() : 0);
-        result = 31 * result + (phoneDataSet != null ? phoneDataSet.hashCode() : 0);
+        result = 31 * result + (userPhoneEntity != null ? userPhoneEntity.hashCode() : 0);
         return result;
     }
 }

@@ -6,7 +6,7 @@ import javax.persistence.*;
  * Created by dev on 14.07.17.
  */
 @Entity
-@Table(name = "user_phone")
+@Table(name = "user_phones")
 public class UserPhoneEntity {
     @Id
     @Column(name = "id")
@@ -20,7 +20,7 @@ public class UserPhoneEntity {
     private String number;
 
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "id", insertable = false, updatable = false)
     private UserEntity user;
 
     public UserPhoneEntity() {
@@ -61,7 +61,7 @@ public class UserPhoneEntity {
 
     @Override
     public String toString() {
-        return "PhoneDataSet{" +
+        return "UserPhoneEntity {" +
                 "id=" + id +
                 ", code=" + code +
                 ", number='" + number + '\'' +
