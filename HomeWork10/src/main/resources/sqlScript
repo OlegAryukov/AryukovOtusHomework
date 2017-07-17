@@ -1,0 +1,47 @@
+create table user_entity
+(
+	id serial not null
+		constraint user_entity_pkey
+			primary key,
+	name varchar(50),
+	age integer,
+	address_id integer
+)
+;
+
+create table user_address
+(
+	id serial not null
+		constraint user_address_pkey
+			primary key,
+	street varchar(100),
+	index integer
+)
+;
+
+create unique index user_address_id_uindex
+	on user_address (id)
+;
+
+alter table user_entity
+	add constraint user_entity_user_address_id_fk
+		foreign key (address_id) references user_address
+;
+
+create table user_phones
+(
+	id serial not null
+		constraint user_phones_pkey
+			primary key,
+	code integer,
+	number varchar(15),
+	user_id integer
+		constraint user_phones_user_entity_id_fk
+			references user_entity
+)
+;
+
+create unique index user_phones_id_uindex
+	on user_phones (id)
+;
+
