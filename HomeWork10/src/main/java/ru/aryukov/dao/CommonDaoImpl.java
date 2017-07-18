@@ -22,6 +22,7 @@ public abstract class CommonDaoImpl<T, ID extends Serializable> implements Commo
     public void save(T entity) {
         HibernateUtil.beginTransaction();
         this.getSession().saveOrUpdate(entity);
+        this.getSession().flush();
         HibernateUtil.commitTransaction();
         HibernateUtil.closeSession();
     }

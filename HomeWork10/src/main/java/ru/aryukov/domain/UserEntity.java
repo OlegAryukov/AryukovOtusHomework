@@ -83,8 +83,8 @@ public class UserEntity {
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
-        for (UserPhoneEntity userPhoneEntity:userPhoneEntity) {
-            result.append(userPhoneEntity.toString());
+        for (UserPhoneEntity upe:userPhoneEntity) {
+            result.append(upe.toString());
         }
         return "UserEntity{" +
                 "id=" + id +

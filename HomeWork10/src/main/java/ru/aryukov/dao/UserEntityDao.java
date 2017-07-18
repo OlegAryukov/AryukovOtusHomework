@@ -17,6 +17,7 @@ public class UserEntityDao extends CommonDaoImpl<UserEntity, Integer> {
         Query query = HibernateUtil.getSession().createQuery("from UserEntity where name = :name").setParameter("name", name);
         userEntity = findOne(query);
         HibernateUtil.commitTransaction();
+        HibernateUtil.closeSession();
         return userEntity;
     }
 }
