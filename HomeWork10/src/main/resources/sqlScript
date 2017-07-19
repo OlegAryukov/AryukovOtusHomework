@@ -4,8 +4,7 @@ create table user_entity
 		constraint user_entity_pkey
 			primary key,
 	name varchar(50),
-	age integer,
-	address_id integer
+	age integer
 )
 ;
 
@@ -13,7 +12,9 @@ create table user_address
 (
 	id serial not null
 		constraint user_address_pkey
-			primary key,
+			primary key
+		constraint user_address_user_entity_id_fk
+			references user_entity,
 	street varchar(100),
 	index integer
 )
@@ -23,11 +24,6 @@ create unique index user_address_id_uindex
 	on user_address (id)
 ;
 
-alter table user_entity
-	add constraint user_entity_user_address_id_fk
-		foreign key (address_id) references user_address
-;
-
 create table user_phones
 (
 	id serial not null
@@ -35,7 +31,7 @@ create table user_phones
 			primary key,
 	code integer,
 	number varchar(15),
-	user_id integer
+	user_id integer not null
 		constraint user_phones_user_entity_id_fk
 			references user_entity
 )
