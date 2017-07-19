@@ -19,12 +19,18 @@ public class UserPhoneEntity {
     @Column(name = "number")
     private String number;
 
-    @ManyToOne
-    @JoinColumn(name = "id", insertable = false, updatable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private UserEntity user;
 
     public UserPhoneEntity() {
 
+    }
+
+    public UserPhoneEntity(Integer code, String number) {
+        //this.id = id;
+        this.code = code;
+        this.number = number;
     }
 
     public UserEntity getUser() {
@@ -61,7 +67,7 @@ public class UserPhoneEntity {
 
     @Override
     public String toString() {
-        return "UserPhoneEntity {" +
+        return "UserPhoneEntityDao {" +
                 "id=" + id +
                 ", code=" + code +
                 ", number='" + number + '\'' +

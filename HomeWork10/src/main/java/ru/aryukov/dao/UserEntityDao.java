@@ -13,11 +13,10 @@ public class UserEntityDao extends CommonDaoImpl<UserEntity, Integer> {
 
     public UserEntity findByName(String name) {
         UserEntity userEntity = null;
-        HibernateUtil.beginTransaction();
+        //HibernateUtil.beginTransaction();
         Query query = HibernateUtil.getSession().createQuery("from UserEntity where name = :name").setParameter("name", name);
         userEntity = findOne(query);
-        HibernateUtil.commitTransaction();
-        HibernateUtil.closeSession();
+        //HibernateUtil.commitTransaction();
         return userEntity;
     }
 }

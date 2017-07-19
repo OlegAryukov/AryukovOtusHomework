@@ -23,29 +23,21 @@ public class UserEntity {
     @Column(name = "age")
     private Integer age;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="address_id")
-    private UserAddressEntity userAddressEntity;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<UserPhoneEntity> userPhoneEntity = new ArrayList<>();
+    @OneToMany(
+            mappedBy = "user",
+            cascade = CascadeType.ALL,
+           orphanRemoval = true)//fetch = FetchType.EAGER)
+    private List<UserPhoneEntity> userPhoneEntityList = new ArrayList<>();
 
     public UserEntity() {
 
     }
 
     public UserEntity(UserEntity uds) {
-        this.id = uds.getId();
+        //this.id = uds.getId();
         this.name = uds.getName();
         this.age = uds.getAge();
-    }
 
-    public UserAddressEntity getUserAddressEntity() {
-        return userAddressEntity;
-    }
-
-    public void setUserAddressEntity(UserAddressEntity userAddressEntity) {
-        this.userAddressEntity = userAddressEntity;
     }
 
     public Long getId() {
@@ -72,28 +64,38 @@ public class UserEntity {
         this.age = age;
     }
 
-    public List<UserPhoneEntity> getUserPhoneEntity() {
-        return userPhoneEntity;
+
+    public List<UserPhoneEntity> getUserPhoneEntityList() {
+        return userPhoneEntityList;
     }
 
-    public void setUserPhoneEntity(List<UserPhoneEntity> userPhoneEntity) {
-        this.userPhoneEntity = userPhoneEntity;
+    public void setUserPhoneEntityList(List<UserPhoneEntity> userPhoneEntity) {
+        this.userPhoneEntityList = userPhoneEntity;
     }
 
-    @Override
+    public void addPhone(UserPhoneEntity userPhoneEntity){
+        userPhoneEntityList.add(userPhoneEntity);
+        userPhoneEntity.setUser(this);
+    }
+    public void removePhone(UserPhoneEntity userPhoneEntity){
+        userPhoneEntityList.remove(userPhoneEntity);
+        userPhoneEntity.setUser(null);
+    }
+
+
+    /*@Override
     public String toString() {
         StringBuilder result = new StringBuilder();
-        for (UserPhoneEntity upe:userPhoneEntity) {
+        for (UserPhoneEntity upe: userPhoneEntityList) {
             result.append(upe.toString());
         }
         return "UserEntity{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", age=" + age +
-                ", userAddressEntity=" + userAddressEntity.toString() +
                 ", userPhoneEntity=" + result.toString() +
                 '}';
-    }
+    }*/
 
     @Override
     public boolean equals(Object o) {
@@ -105,18 +107,16 @@ public class UserEntity {
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
         if (age != null ? !age.equals(that.age) : that.age != null) return false;
-        if (userAddressEntity != null ? !userAddressEntity.equals(that.userAddressEntity) : that.userAddressEntity != null)
-            return false;
 
-        if (userPhoneEntity != null) {
-            if (that.userPhoneEntity != null) {
-                return userPhoneEntity.size() == that.userPhoneEntity.size()
-                        && userPhoneEntity.stream().filter(s -> that.userPhoneEntity.contains(s)).collect(Collectors.toSet()).isEmpty();
+        if (userPhoneEntityList != null) {
+            if (that.userPhoneEntityList != null) {
+                return userPhoneEntityList.size() == that.userPhoneEntityList.size()
+                        && userPhoneEntityList.stream().filter(s -> that.userPhoneEntityList.contains(s)).collect(Collectors.toSet()).isEmpty();
             } else {
                 return false;
             }
         } else {
-            return that.userPhoneEntity == null;
+            return that.userPhoneEntityList == null;
         }
     }
 
@@ -125,8 +125,7 @@ public class UserEntity {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (age != null ? age.hashCode() : 0);
-        result = 31 * result + (userAddressEntity != null ? userAddressEntity.hashCode() : 0);
-        result = 31 * result + (userPhoneEntity != null ? userPhoneEntity.hashCode() : 0);
+        result = 31 * result + (userPhoneEntityList != null ? userPhoneEntityList.hashCode() : 0);
         return result;
     }
 }

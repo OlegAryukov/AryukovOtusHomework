@@ -10,20 +10,24 @@ import javax.persistence.*;
 public class UserAddressEntity {
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "street")
     private String street;
 
     @Column(name = "index")
-    private int index;
+    private Integer index;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @MapsId
+    private UserEntity userEntity;
 
     public UserAddressEntity() {
     }
 
     public UserAddressEntity(UserAddressEntity ads) {
-        this.id = ads.getId();
+        //this.id = ads.getId();
         this.street = ads.getStreet();
         this.index = ads.getIndex();
     }
@@ -50,6 +54,14 @@ public class UserAddressEntity {
 
     public Long getId() {
         return id;
+    }
+
+    public UserEntity getUserEntity() {
+        return userEntity;
+    }
+
+    public void setUserEntity(UserEntity userEntity) {
+        this.userEntity = userEntity;
     }
 
     @Override
