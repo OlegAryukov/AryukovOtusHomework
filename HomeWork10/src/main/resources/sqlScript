@@ -12,16 +12,11 @@ create table user_address
 (
 	id serial not null
 		constraint user_address_pkey
-			primary key
-		constraint user_address_user_entity_id_fk
-			references user_entity,
+			primary key,
 	street varchar(100),
-	index integer
+	index integer,
+	userentity_id integer
 )
-;
-
-create unique index user_address_id_uindex
-	on user_address (id)
 ;
 
 create table user_phones
