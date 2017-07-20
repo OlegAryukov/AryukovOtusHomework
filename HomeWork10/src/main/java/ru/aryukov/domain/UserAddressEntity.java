@@ -10,7 +10,6 @@ import javax.persistence.*;
 public class UserAddressEntity {
     @Id
     @Column(name = "id")
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "street")
@@ -19,17 +18,17 @@ public class UserAddressEntity {
     @Column(name = "index")
     private Integer index;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne
     @MapsId
     private UserEntity userEntity;
 
     public UserAddressEntity() {
     }
 
-    public UserAddressEntity(UserAddressEntity ads) {
-        //this.id = ads.getId();
-        this.street = ads.getStreet();
-        this.index = ads.getIndex();
+    public UserAddressEntity(UserAddressEntity addressEntity) {
+        this.id = addressEntity.getId();
+        this.street = addressEntity.getStreet();
+        this.index = addressEntity.getIndex();
     }
 
     public String getStreet() {
@@ -76,20 +75,20 @@ public class UserAddressEntity {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof UserAddressEntity)) return false;
 
         UserAddressEntity that = (UserAddressEntity) o;
 
-        if (index != that.index) return false;
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        return street != null ? street.equals(that.street) : that.street == null;
+        if (!getId().equals(that.getId())) return false;
+        if (!getStreet().equals(that.getStreet())) return false;
+        return getUserEntity().equals(that.getUserEntity());
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (street != null ? street.hashCode() : 0);
-        result = 31 * result + index;
+        int result = getId().hashCode();
+        result = 31 * result + getStreet().hashCode();
+        result = 31 * result + getUserEntity().hashCode();
         return result;
     }
 }

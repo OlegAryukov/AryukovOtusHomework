@@ -27,10 +27,10 @@ public class UserPhoneEntity {
 
     }
 
-    public UserPhoneEntity(Integer code, String number) {
-        //this.id = id;
-        this.code = code;
-        this.number = number;
+    public UserPhoneEntity(UserPhoneEntity phoneEntity) {
+        this.id = phoneEntity.getId();
+        this.code = phoneEntity.getCode();
+        this.number = phoneEntity.getNumber();
     }
 
     public UserEntity getUser() {
@@ -77,22 +77,22 @@ public class UserPhoneEntity {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof UserPhoneEntity)) return false;
 
         UserPhoneEntity that = (UserPhoneEntity) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (code != null ? !code.equals(that.code) : that.code != null) return false;
-        if (number != null ? !number.equals(that.number) : that.number != null) return false;
-        return user != null ? user.equals(that.user) : that.user == null;
+        if (!getId().equals(that.getId())) return false;
+        if (!getCode().equals(that.getCode())) return false;
+        if (!getNumber().equals(that.getNumber())) return false;
+        return getUser().equals(that.getUser());
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (code != null ? code.hashCode() : 0);
-        result = 31 * result + (number != null ? number.hashCode() : 0);
-        result = 31 * result + (user != null ? user.hashCode() : 0);
+        int result = getId().hashCode();
+        result = 31 * result + getCode().hashCode();
+        result = 31 * result + getNumber().hashCode();
+        result = 31 * result + getUser().hashCode();
         return result;
     }
 }

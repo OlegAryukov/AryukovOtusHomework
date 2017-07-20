@@ -36,6 +36,12 @@ public class AppMain {
         userEntity.addPhone(userPhoneEntity);
         userEntity.addPhone(userPhoneEntity1);
 
+        UserAddressEntity userAddressEntity = new UserAddressEntity();
+        userAddressEntity.setIndex(11);
+        userAddressEntity.setStreet("Kultury street");
+        userEntity.setUserAddressEntity(userAddressEntity);
+
+
         HibernateUtil.getSession().save(userEntity);
         HibernateUtil.getSession().getTransaction().commit();
 
@@ -45,14 +51,6 @@ public class AppMain {
 
 
         System.out.println(userEntity1.getUserPhoneEntityList().get(0).toString());
-
-        /*final UserAddressEntity userAddressEntity = new UserAddressEntity();
-        userAddressEntity.setIndex(11);
-        userAddressEntity.setStreet("Kultury street");
-        userAddressEntity.setUserEntity(userEntity1);
-
-        HibernateUtil.getSession().save(userAddressEntity);
-        HibernateUtil.getSession().getTransaction().commit();*/
 
     }
 }

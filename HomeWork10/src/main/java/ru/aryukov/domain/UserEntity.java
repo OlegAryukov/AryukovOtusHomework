@@ -23,6 +23,9 @@ public class UserEntity {
     @Column(name = "age")
     private Integer age;
 
+    @OneToOne(mappedBy = "userEntity", cascade = CascadeType.ALL)
+    private UserAddressEntity userAddressEntity;
+
     @OneToMany(
             mappedBy = "user",
             cascade = CascadeType.ALL,
@@ -33,10 +36,10 @@ public class UserEntity {
 
     }
 
-    public UserEntity(UserEntity uds) {
-        //this.id = uds.getId();
-        this.name = uds.getName();
-        this.age = uds.getAge();
+    public UserEntity(UserEntity userEntity) {
+        this.id = userEntity.getId();
+        this.name = userEntity.getName();
+        this.age = userEntity.getAge();
 
     }
 
@@ -46,6 +49,9 @@ public class UserEntity {
 
     public void setId(Long id) {
         this.id = id;
+        if(userAddressEntity!=null){
+            userAddressEntity.setId(id);
+        }
     }
 
     public String getName() {
@@ -82,6 +88,16 @@ public class UserEntity {
         userPhoneEntity.setUser(null);
     }
 
+    public UserAddressEntity getUserAddressEntity() {
+        return userAddressEntity;
+    }
+
+    public void setUserAddressEntity(UserAddressEntity userAddressEntity) {
+        this.userAddressEntity = userAddressEntity;
+        if(userAddressEntity!=null){
+            userAddressEntity.setUserEntity(this);
+        }
+    }
 
     /*@Override
     public String toString() {
@@ -100,32 +116,24 @@ public class UserEntity {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof UserEntity)) return false;
 
         UserEntity that = (UserEntity) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        if (age != null ? !age.equals(that.age) : that.age != null) return false;
-
-        if (userPhoneEntityList != null) {
-            if (that.userPhoneEntityList != null) {
-                return userPhoneEntityList.size() == that.userPhoneEntityList.size()
-                        && userPhoneEntityList.stream().filter(s -> that.userPhoneEntityList.contains(s)).collect(Collectors.toSet()).isEmpty();
-            } else {
-                return false;
-            }
-        } else {
-            return that.userPhoneEntityList == null;
-        }
+        if (!getId().equals(that.getId())) return false;
+        if (!getName().equals(that.getName())) return false;
+        if (!getAge().equals(that.getAge())) return false;
+       //f (!getUserAddressEntity().equals(that.getUserAddressEntity())) return false;
+        return getUserPhoneEntityList().equals(that.getUserPhoneEntityList());
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (age != null ? age.hashCode() : 0);
-        result = 31 * result + (userPhoneEntityList != null ? userPhoneEntityList.hashCode() : 0);
+        int result = getId().hashCode();
+        result = 31 * result + getName().hashCode();
+        result = 31 * result + getAge().hashCode();
+        result = 31 * result + getUserAddressEntity().hashCode();
+        result = 31 * result + getUserPhoneEntityList().hashCode();
         return result;
     }
 }

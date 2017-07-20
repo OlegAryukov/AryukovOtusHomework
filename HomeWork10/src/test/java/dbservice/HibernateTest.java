@@ -24,50 +24,47 @@ public class HibernateTest {
     @Test
     public void save() throws Exception {
 
-       /* UserEntityDao userEntityDao = new UserEntityDao();
+        UserEntityDao userEntityDao = new UserEntityDao();
         UserPhoneEntityDao userPhoneEntityDao = new UserPhoneEntityDao();
         UserAddressEntityDao userAddressEntityDao= new UserAddressEntityDao();
 
+        HibernateUtil.getSession().beginTransaction();
         final UserEntity userEntity = new UserEntity();
         userEntity.setName("Oleg");
         userEntity.setAge(32);
 
-        final UserAddressEntity userAddressEntity = new UserAddressEntity();
+        UserPhoneEntity userPhoneEntity = new UserPhoneEntity();
+        userPhoneEntity.setNumber("987-654-32");
+        userPhoneEntity.setCode(812);
+        UserPhoneEntity userPhoneEntity1 = new UserPhoneEntity();
+        userPhoneEntity1.setNumber("123-456-78");
+        userPhoneEntity1.setCode(490);
+
+        userEntity.addPhone(userPhoneEntity);
+        userEntity.addPhone(userPhoneEntity1);
+
+        UserAddressEntity userAddressEntity = new UserAddressEntity();
         userAddressEntity.setIndex(11);
         userAddressEntity.setStreet("Kultury street");
         userEntity.setUserAddressEntity(userAddressEntity);
-        userAddressEntityDao.save(userAddressEntity);
 
-        userEntityDao.save(userEntity);
 
-        final List<UserPhoneEntity> phoneDataSetList = new ArrayList<>();
-        final UserPhoneEntity userPhoneEntity = new UserPhoneEntity();
-        userPhoneEntity.setNumber("987-654-32");
-        userPhoneEntity.setCode(812);
-        userPhoneEntity.setUser(new UserEntity(userEntity));
-        phoneDataSetList.add(userPhoneEntity);
-        userPhoneEntityDao.save(userPhoneEntity);
+        HibernateUtil.getSession().save(userEntity);
+        HibernateUtil.getSession().getTransaction().commit();
 
-        final UserPhoneEntity userPhoneEntity1 = new UserPhoneEntity();
-        userPhoneEntity1.setNumber("123-456-78");
-        userPhoneEntity1.setCode(490);
-        userPhoneEntity1.setUser(new UserEntity(userEntity));
-        phoneDataSetList.add(userPhoneEntity1);
-
-        //userEntity.setUserPhoneEntity(phoneDataSetList);
-        userPhoneEntityDao.save(userPhoneEntity1);
+        HibernateUtil.getSession().beginTransaction();
+        List<UserEntity> userEntityList = userEntityDao.findAll(UserEntity.class);
+        UserEntity factUser = userEntityList.get(0);
 
 
 
-       final UserEntity factUser = userEntityDao.findByName("Oleg");
+        assertEquals(userEntity.getName(), factUser.getName());
+        assertEquals(userEntity.getAge(), factUser.getAge());
 
-        assertEquals("userEntity Name", userEntity.getName(), factUser.getName());
-        assertEquals("userEntity Age", userEntity.getAge(), factUser.getAge());
+        assertEquals(userEntity.getUserAddressEntity().getIndex(), factUser.getUserAddressEntity().getIndex());
+        assertEquals(userEntity.getUserAddressEntity().getStreet(), factUser.getUserAddressEntity().getStreet());
 
-        assertEquals("userAddressEntity Index", userEntity.getUserAddressEntity().getIndex(), factUser.getUserAddressEntity().getIndex());
-        assertEquals("userAddressEntity Street", userEntity.getUserAddressEntity().getStreet(), factUser.getUserAddressEntity().getStreet());
-
-        assertEquals("userPhoneEntity Phone size", userEntity.getUserPhoneEntity().size(), factUser.getUserPhoneEntity().size());
-        assertEquals("userPhoneEntity Phone", userEntity.getUserPhoneEntity().get(0), factUser.getUserPhoneEntity().get(0));*/
+        assertEquals(userEntity.getUserPhoneEntityList().size(), factUser.getUserPhoneEntityList().size());
+        assertEquals( userEntity.getUserPhoneEntityList().get(0), factUser.getUserPhoneEntityList().get(0));
     }
 }
