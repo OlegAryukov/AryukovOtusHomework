@@ -17,11 +17,11 @@ public interface CommonDao<T, ID extends Serializable> {
 
     public List<T> findMany(Query query);
 
-    public T find(long id);
+    public T find(ID id);
 
     public T findOne(Query query);
 
     public List findAll(Class clazz);
 
-    public T findByID(Class clazz, Long id);
+    public T findByID(Class clazz, ID id);
 }

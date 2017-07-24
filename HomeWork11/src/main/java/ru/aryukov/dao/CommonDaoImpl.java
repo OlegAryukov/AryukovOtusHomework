@@ -18,7 +18,7 @@ public abstract class CommonDaoImpl<T, ID extends Serializable> implements Commo
     protected Session getSession() {
         return HibernateUtil.getSession();
     }
-    protected CacheEngine<, T> dataCache;
+    protected CacheEngine<ID, T> dataCache;
 
     public static final int MAX_ELEMENTS = 300;
     public static final long LIFE_TIMES_MS = 10000;
@@ -53,18 +53,17 @@ public abstract class CommonDaoImpl<T, ID extends Serializable> implements Commo
     }
 
     @Override
-    public T find(long id) {
+    public T find(ID id) {
         CacheElement<T> element = dataCache.get(id);
         T obj = null;
         if (element != null) {
             obj = element.getValue();
         }
         if (obj == null) {
-            obj = findByID(obj.getClass(), ID);
-            dataCache.put(ID, new CacheElement<>(obj));
+            obj = findByID(obj.getClass(), id);
+            dataCache.put(id, new CacheElement<>(obj));
         }
         return obj;
-        return null;
     }
 
     @Override
@@ -83,7 +82,7 @@ public abstract class CommonDaoImpl<T, ID extends Serializable> implements Commo
     }
 
     @Override
-    public T findByID(Class clazz, Long id) {
+    public T findByID(Class clazz, ID id) {
         T t = null;
         t = (T) this.getSession().get(clazz, id);
         return t;
