@@ -2,6 +2,9 @@ package ru.aryukov.dao;
 
 import org.hibernate.Session;
 import org.hibernate.query.Query;
+import ru.aryukov.cache.CacheElement;
+import ru.aryukov.cache.CacheEngine;
+import ru.aryukov.cache.cacheImpl.CacheEngineImpl;
 import ru.aryukov.util.HibernateUtil;
 
 import java.io.Serializable;
@@ -12,9 +15,17 @@ import java.util.function.Function;
  * Created by dev on 17.07.17.
  */
 public abstract class CommonDaoImpl<T, ID extends Serializable> implements CommonDao<T, ID> {
-
     protected Session getSession() {
         return HibernateUtil.getSession();
+    }
+    protected CacheEngine<, T> dataCache;
+
+    public static final int MAX_ELEMENTS = 300;
+    public static final long LIFE_TIMES_MS = 10000;
+    public static final long IDLE_TIME_MS = 10000;
+
+    public void startUp(){
+        dataCache = new CacheEngineImpl<>(MAX_ELEMENTS, LIFE_TIMES_MS, IDLE_TIME_MS, false);
     }
 
     @Override
@@ -42,6 +53,21 @@ public abstract class CommonDaoImpl<T, ID extends Serializable> implements Commo
     }
 
     @Override
+    public T find(long id) {
+        CacheElement<T> element = dataCache.get(id);
+        T obj = null;
+        if (element != null) {
+            obj = element.getValue();
+        }
+        if (obj == null) {
+            obj = findByID(obj.getClass(), ID);
+            dataCache.put(ID, new CacheElement<>(obj));
+        }
+        return obj;
+        return null;
+    }
+
+    @Override
     public T findOne(Query query) {
         T t;
         t = (T) query.uniqueResult();
@@ -57,7 +83,7 @@ public abstract class CommonDaoImpl<T, ID extends Serializable> implements Commo
     }
 
     @Override
-    public T findByID(Class clazz, int id) {
+    public T findByID(Class clazz, Long id) {
         T t = null;
         t = (T) this.getSession().get(clazz, id);
         return t;

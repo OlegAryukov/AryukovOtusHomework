@@ -9,6 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="HomeWork1" />
         <module name="HomeWork10" />
+        <module name="HomeWork11" />
         <module name="HomeWork2" />
         <module name="HomeWork2 (1)" />
         <module name="HomeWork3" />
@@ -22,6 +23,7 @@
     <bytecodeTargetLevel>
       <module name="HomeWork1" target="1.8" />
       <module name="HomeWork10" target="1.8" />
+      <module name="HomeWork11" target="1.8" />
       <module name="HomeWork2" target="1.8" />
       <module name="HomeWork2 (1)" target="1.8" />
       <module name="Homework3" target="1.8" />
