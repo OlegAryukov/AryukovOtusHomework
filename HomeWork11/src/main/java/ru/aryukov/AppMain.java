@@ -8,7 +8,6 @@ import ru.aryukov.domain.UserEntity;
 import ru.aryukov.domain.UserPhoneEntity;
 import ru.aryukov.util.HibernateUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,6 +17,7 @@ public class AppMain {
     public static void main(String[] args) {
         //Session session = DbServicesImpl.getSessionFactory().openSession();
         UserEntityDao userEntityDao = new UserEntityDao();
+        userEntityDao.startUp();
         UserPhoneEntityDao userPhoneEntityDao = new UserPhoneEntityDao();
         UserAddressEntityDao userAddressEntityDao= new UserAddressEntityDao();
 
@@ -25,6 +25,7 @@ public class AppMain {
         final UserEntity userEntity = new UserEntity();
         userEntity.setName("Oleg");
         userEntity.setAge(32);
+        System.out.println(userEntity.getId());
 
         UserPhoneEntity userPhoneEntity = new UserPhoneEntity();
         userPhoneEntity.setNumber("987-654-32");
@@ -47,7 +48,7 @@ public class AppMain {
 
         HibernateUtil.getSession().beginTransaction();
         List<UserEntity> userEntityList = userEntityDao.findAll(UserEntity.class);
-        UserEntity userEntity1 = userEntityList.get(0);
+        UserEntity userEntity1 = userEntityDao.find(userEntityList.get(0).getId());
 
 
         System.out.println(userEntity1.getUserPhoneEntityList().get(0).toString());

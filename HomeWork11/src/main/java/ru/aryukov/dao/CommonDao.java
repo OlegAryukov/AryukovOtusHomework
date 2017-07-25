@@ -9,6 +9,9 @@ import java.util.List;
  * Created by dev on 17.07.17.
  */
 public interface CommonDao<T, ID extends Serializable> {
+
+    public void startUp();
+
     public void save(T entity);
 
     public void merge(T entity);
@@ -16,8 +19,6 @@ public interface CommonDao<T, ID extends Serializable> {
     public void delete(T entity);
 
     public List<T> findMany(Query query);
-
-    public T find(ID id);
 
     public T findOne(Query query);
 

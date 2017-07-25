@@ -8,8 +8,8 @@ import ru.aryukov.util.HibernateUtil;
  */
 public class UserPhoneEntityDao extends CommonDaoImpl<UserPhoneEntity, Integer> {
 
-    public void flush(UserPhoneEntityDao userPhoneEntity){
+    @Override
+    public void startUp() {
 
-        HibernateUtil.getSession().flush();
     }
 }

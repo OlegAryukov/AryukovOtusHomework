@@ -10,7 +10,7 @@ import javax.persistence.*;
 public class UserAddressEntity {
     @Id
     @Column(name = "id")
-    private Long id;
+    private Integer id;
 
     @Column(name = "street")
     private String street;
@@ -47,11 +47,11 @@ public class UserAddressEntity {
         this.index = index;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
