@@ -12,7 +12,7 @@ public class Main {
         ConnectionHelper connectionHelper = new ConnectionHelper();
         Connection connection = connectionHelper.getConnection();
         SqlUtilsImp sqlUtilsImp = new SqlUtilsImp(connection);
-        final String select = "select * from \"user\"";
+        final String select = "select * from \"user_entity_one\"";
         User user = sqlUtilsImp.queryExecutor(select, null, rs -> {
             User result = new User();
             while (rs.next()) {
