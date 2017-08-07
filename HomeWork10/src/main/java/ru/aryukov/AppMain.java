@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class AppMain {
     public static void main(String[] args) {
-        //Session session = DbServicesImpl.getSessionFactory().openSession();
+
         UserEntityDao userEntityDao = new UserEntityDao();
         UserPhoneEntityDao userPhoneEntityDao = new UserPhoneEntityDao();
         UserAddressEntityDao userAddressEntityDao= new UserAddressEntityDao();

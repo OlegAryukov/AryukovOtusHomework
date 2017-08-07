@@ -1,5 +1,6 @@
 package dbservice;
 
+import org.junit.Before;
 import org.junit.Test;
 import ru.aryukov.dao.UserAddressEntityDao;
 import ru.aryukov.dao.UserEntityDao;
@@ -20,6 +21,44 @@ import static org.junit.Assert.assertEquals;
  * Created by dev on 17.07.17.
  */
 public class HibernateTest {
+
+    @Before
+    public void prepeareTable(){
+        UserEntityDao ued = new UserEntityDao();
+        UserPhoneEntityDao uped = new UserPhoneEntityDao();
+        UserAddressEntityDao uaed = new UserAddressEntityDao();
+
+        HibernateUtil.getSession().beginTransaction();
+        List<UserPhoneEntity> phoneEntities = uped.findAll(UserPhoneEntity.class);
+        if(!phoneEntities.isEmpty()){
+            for (UserPhoneEntity upe : phoneEntities) {
+                uped.delete(upe);
+            }
+        }
+        HibernateUtil.getSession().getTransaction().commit();
+        HibernateUtil.getSession().close();
+
+        HibernateUtil.getSession().beginTransaction();
+        List<UserEntity> userEntityList = ued.findAll(UserEntity.class);
+        if(!userEntityList.isEmpty()){
+            for (UserEntity ue : userEntityList) {
+                ued.delete(ue);
+            }
+        }
+        HibernateUtil.getSession().getTransaction().commit();
+        HibernateUtil.getSession().close();
+
+        HibernateUtil.getSession().beginTransaction();
+        List<UserAddressEntity> addressEntities = uaed.findAll(UserAddressEntity.class);
+        if(!addressEntities.isEmpty()){
+            for (UserAddressEntity uae : addressEntities) {
+                uaed.delete(uae);
+            }
+        }
+        HibernateUtil.getSession().getTransaction().commit();
+        HibernateUtil.getSession().close();
+
+    }
 
     @Test
     public void save() throws Exception {
@@ -54,17 +93,23 @@ public class HibernateTest {
 
         HibernateUtil.getSession().beginTransaction();
         List<UserEntity> userEntityList = userEntityDao.findAll(UserEntity.class);
-        UserEntity factUser = userEntityList.get(0);
+        UserEntity userEntity1 = userEntityList.get(0);
+
+
+        System.out.println(userEntity1.getUserPhoneEntityList().get(0).toString());
 
 
 
-        assertEquals(userEntity.getName(), factUser.getName());
-        assertEquals(userEntity.getAge(), factUser.getAge());
+        assertEquals(userEntity1.getName(), userEntity.getName());
+        assertEquals(userEntity1.getAge(), userEntity.getAge());
 
-        assertEquals(userEntity.getUserAddressEntity().getIndex(), factUser.getUserAddressEntity().getIndex());
-        assertEquals(userEntity.getUserAddressEntity().getStreet(), factUser.getUserAddressEntity().getStreet());
+        assertEquals(userEntity1.getUserAddressEntity().getIndex(), userAddressEntity.getIndex());
+        assertEquals(userEntity1.getUserAddressEntity().getStreet(), userAddressEntity.getStreet());
 
-        assertEquals(userEntity.getUserPhoneEntityList().size(), factUser.getUserPhoneEntityList().size());
-        assertEquals( userEntity.getUserPhoneEntityList().get(0), factUser.getUserPhoneEntityList().get(0));
+        assertEquals(userEntity.getUserPhoneEntityList().size(), 2);
+        assertEquals( userEntity.getUserPhoneEntityList().get(0), userPhoneEntity);
     }
+
+    @Test
+    public void
 }

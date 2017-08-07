@@ -15,9 +15,9 @@
         <!--<property name="show_sql">true</property>-->
         <!--<property name="format_sql">true</property>-->
 
-        <mapping class="ru.UserEntity"/>
-        <mapping class="ru.UserAddressEntity"/>
-        <mapping class="ru.UserPhoneEntity"/>
+        <mapping class="ru.aryukov.domain.UserEntity"/>
+        <mapping class="ru.aryukov.domain.UserAddressEntity"/>
+        <mapping class="ru.aryukov.domain.UserPhoneEntity"/>
 
     </session-factory>
 

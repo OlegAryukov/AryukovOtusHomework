@@ -63,10 +63,4 @@ public abstract class CommonDaoImpl<T, ID extends Serializable> implements Commo
         return t;
     }
 
-    private <R> R runInSession(Function<Session, R> function) {
-        HibernateUtil.beginTransaction();
-        R result = function.apply(this.getSession());
-        HibernateUtil.commitTransaction();
-        return result;
-    }
 }
