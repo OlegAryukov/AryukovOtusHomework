@@ -110,6 +110,4 @@ public class HibernateTest {
         assertEquals( userEntity.getUserPhoneEntityList().get(0), userPhoneEntity);
     }
 
-    @Test
-    public void
 }
