@@ -10,7 +10,6 @@ enum  ObjectTypes {
     INT("java.lang.Integer");
 
     private final String fullName;
-    //private final String code;
 
     public static ObjectTypes byFullName(String fullName) {
         ObjectTypes res = null;
@@ -24,7 +23,7 @@ enum  ObjectTypes {
 
     ObjectTypes(String fullName/*, String code*/) {
         this.fullName = fullName;
-        //this.code = code;
+        //this.code = cod
     }
 
     public String getFullName() {

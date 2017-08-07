@@ -2,9 +2,6 @@ package ru.aryukov.dao;
 
 import org.hibernate.Session;
 import org.hibernate.query.Query;
-import ru.aryukov.cache.CacheElement;
-import ru.aryukov.cache.CacheEngine;
-import ru.aryukov.cache.cacheImpl.CacheEngineImpl;
 import ru.aryukov.util.HibernateUtil;
 
 import java.io.Serializable;
@@ -22,9 +19,9 @@ public abstract class CommonDaoImpl<T, ID extends Serializable> implements Commo
 
     @Override
     public void save(T entity) {
-        this.getSession().beginTransaction();
+        //this.getSession().beginTransaction();
         this.getSession().saveOrUpdate(entity);
-        this.getSession().getTransaction().commit();
+        //this.getSession().getTransaction().commit();
     }
 
     @Override

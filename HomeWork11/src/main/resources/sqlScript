@@ -1,3 +1,11 @@
+create table user_entity_one
+(
+	id serial not null,
+	name varchar(50),
+	age integer
+)
+;
+
 create table user_entity
 (
 	id serial not null
