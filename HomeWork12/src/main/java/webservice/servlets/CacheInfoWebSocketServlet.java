@@ -9,12 +9,12 @@ import webservice.WebSocketFactory;
 /**
  * Created by dev on 08.08.17.
  */
-public class CachInfoWebSocetServlet extends WebSocketServlet {
+public class CacheInfoWebSocketServlet extends WebSocketServlet {
 
     private final static int LOGOUT_TIME = 10 * 60 * 1000;
     private final CacheEngine<Integer, UserEntity> userCache;
 
-    public CachInfoWebSocetServlet(CacheEngine<Integer, UserEntity> userCache) {
+    public CacheInfoWebSocketServlet(CacheEngine<Integer, UserEntity> userCache) {
         this.userCache = userCache;
     }
 

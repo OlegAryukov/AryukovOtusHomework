@@ -13,16 +13,19 @@ import ru.aryukov.util.HibernateUtil;
  */
 public class UserEntityDao extends CommonDaoImpl<UserEntity, Integer> {
 
-    protected CacheEngine<Integer, UserEntity> dataCache;
-
     public static final int MAX_ELEMENTS = 300;
     public static final long LIFE_TIMES_MS = 10000;
     public static final long IDLE_TIME_MS = 10000;
+
+    protected CacheEngine<Integer, UserEntity> dataCache;
 
     public void startUp(){
         dataCache = new CacheEngineImpl<>(MAX_ELEMENTS, LIFE_TIMES_MS, IDLE_TIME_MS, false);
     }
 
+    public CacheEngine<Integer, UserEntity> getCache(){
+        return dataCache;
+    }
 
     public UserEntity find(Integer id) {
         CacheElement<UserEntity> element = dataCache.get(id);
