@@ -1,4 +1,4 @@
-package webservice;
+package ru.aryukov.webservice;
 
 import com.google.gson.Gson;
 import org.eclipse.jetty.websocket.api.Session;

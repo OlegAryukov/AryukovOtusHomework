@@ -1,4 +1,4 @@
-package webservice;
+package ru.aryukov.webservice;
 
 import javax.servlet.http.HttpServletResponse;
 

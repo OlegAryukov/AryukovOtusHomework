@@ -1,9 +1,7 @@
-package webservice.servlets;
+package ru.aryukov.webservice;
 
 import ru.aryukov.cache.CacheEngine;
 import ru.aryukov.domain.UserEntity;
-import webservice.ResponseHelper;
-import webservice.TemplateProc;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -57,6 +55,6 @@ public class AdminServlet extends HttpServlet {
 
     private String getPage(HttpServletRequest request) throws IOException {
         final Map<String, Object> pageVariables = createPageVariablesMap(request);
-        return TemplateProc.instance().getPage(ADMIN_PAGE_TEMPLATE, pageVariables);
+        return TemplateProcessor.instance().getPage(ADMIN_PAGE_TEMPLATE, pageVariables);
     }
 }

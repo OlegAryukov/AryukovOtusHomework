@@ -1,4 +1,4 @@
-package webservice;
+package ru.aryukov.webservice;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -13,17 +13,17 @@ import java.util.Map;
 /**
  * Created by dev on 08.08.17.
  */
-public class TemplateProc {
+public class TemplateProcessor {
     private static final String HTML_DIR = "tml";
-    private static TemplateProc instance = new TemplateProc();
+    private static TemplateProcessor instance = new TemplateProcessor();
 
     private final Configuration configuration;
 
-    public static TemplateProc instance() {
+    public static TemplateProcessor instance() {
         return instance;
     }
 
-    private TemplateProc() {
+    private TemplateProcessor() {
         configuration = new Configuration();
     }
 

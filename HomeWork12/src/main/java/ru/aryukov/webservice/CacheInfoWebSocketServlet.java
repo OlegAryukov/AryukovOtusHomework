@@ -1,10 +1,9 @@
-package webservice.servlets;
+package ru.aryukov.webservice;
 
 import org.eclipse.jetty.websocket.servlet.WebSocketServlet;
 import org.eclipse.jetty.websocket.servlet.WebSocketServletFactory;
 import ru.aryukov.cache.CacheEngine;
 import ru.aryukov.domain.UserEntity;
-import webservice.WebSocketFactory;
 
 /**
  * Created by dev on 08.08.17.

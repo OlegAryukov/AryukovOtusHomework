@@ -1,6 +1,4 @@
-package webservice.servlets;
-
-import webservice.ResponseHelper;
+package ru.aryukov.webservice;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -41,7 +39,7 @@ public class LoginServlet extends HttpServlet {
     }
 
     private void saveToCookie(HttpServletResponse response, String requestLogin) {
-        response.addCookie(new Cookie("dbServicelogin", requestLogin));
+        response.addCookie(new Cookie("cacheService", requestLogin));
     }
 
     private void saveToServlet(HttpServletRequest request, String requestLogin) {

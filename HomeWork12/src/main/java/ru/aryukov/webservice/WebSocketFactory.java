@@ -1,10 +1,9 @@
-package webservice;
+package ru.aryukov.webservice;
 
 import org.eclipse.jetty.websocket.servlet.ServletUpgradeRequest;
 import org.eclipse.jetty.websocket.servlet.ServletUpgradeResponse;
 import org.eclipse.jetty.websocket.servlet.WebSocketCreator;
 import ru.aryukov.cache.CacheEngine;
-import ru.aryukov.dao.UserEntityDao;
 import ru.aryukov.domain.UserEntity;
 
 /**

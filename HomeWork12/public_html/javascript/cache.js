@@ -2,7 +2,7 @@
  * Created by dev on 08.08.17.
  */
 init = function () {
-    var ws = new WebSocket("ws://localhost:8989/getCacheInfo");
+    var ws = new WebSocket("ws://localhost:8095/getCacheInfo");
     ws.onopen = function (event) {
 
     }
