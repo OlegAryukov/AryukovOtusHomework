@@ -6,13 +6,13 @@ import org.reflections.scanners.TypeAnnotationsScanner;
 import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
 import org.reflections.util.FilterBuilder;
+import ru.aryukov.annotations.After;
+import ru.aryukov.annotations.Before;
+import ru.aryukov.annotations.Test;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by oaryukov on 25.06.2017.
@@ -29,6 +29,7 @@ public class MainRunner {
         Container container = new Container();
         Collection<Method> coll = container.getMethodsList(className);
         Object object = className.newInstance();
+
         for (Method method : coll) {
             method.setAccessible(true);
             method.invoke(object);
@@ -47,15 +48,15 @@ public class MainRunner {
                 .setUrls(ClasspathHelper.forClassLoader(classLoadersList.toArray(new ClassLoader[0])))
                 .filterInputsBy(new FilterBuilder().include(FilterBuilder.prefix(pkgName))));
 
-//        Set<Class<?>> allBefore = reflections.getTypesAnnotatedWith(Before.class);
-//        Set<Class<?>> allAfter = reflections.getTypesAnnotatedWith(After.class);
-//        Set<Class<?>> allTest = reflections.getTypesAnnotatedWith(Test.class);
-//
-//        ArrayList<Class<?>> allClass = new ArrayList<>();
-//        allClass.addAll(allBefore);
-//        allClass.addAll(allAfter);
-//        allClass.addAll(allTest);
-        Set<Class<?>> allClass = reflections.getSubTypesOf(Object.class);
+        Set<Class<?>> allBefore = reflections.getTypesAnnotatedWith(Before.class);
+        Set<Class<?>> allTest = reflections.getTypesAnnotatedWith(Test.class);
+        Set<Class<?>> allAfter = reflections.getTypesAnnotatedWith(After.class);
+
+        ArrayList<Class<?>> allClass = new ArrayList<>();
+        allClass.addAll(allBefore);
+        allClass.addAll(allTest);
+        allClass.addAll(allAfter);
+        //Set<Class<?>> allClass = reflections.getSubTypesOf(Object.class);
 
         run(allClass.toArray(new Class<?>[allClass.size()]));
     }

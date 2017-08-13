@@ -28,8 +28,35 @@ public class Container {
 
         allMethods = collection.stream()
                 .filter(methodPredicate)
+                //.toArray(Method[]::new);
                 .collect(Collectors.toList());
-        return allMethods;
+
+        return prepear(allMethods);
     }
-    
+     private List<Method> prepear(List<Method> list){
+        Method[] array = list.toArray(new Method[list.size()]);
+        for ( int i = 0; i < array.length; i++ ){
+            if( array[i].getAnnotation(Before.class)!=null ){
+                if( i != 0 ){
+                    Method tmp = array[0];
+                    array[0] = array[i];
+                    array[i]  = tmp;
+                }
+            }else if (array[i].getAnnotation(Test.class)!=null){
+                if( i != 1 ){
+                    Method tmp = array[1];
+                    array[1] = array[i];
+                    array[i]  = tmp;
+                }
+            }else if (array[i].getAnnotation(After.class)!=null){
+                if( i != 2 ){
+                    Method tmp = array[2];
+                    array[2] = array[i];
+                    array[i]  = tmp;
+                }
+            }
+        }
+
+        return Arrays.asList(array).stream().collect(Collectors.toList());
+     }
 }

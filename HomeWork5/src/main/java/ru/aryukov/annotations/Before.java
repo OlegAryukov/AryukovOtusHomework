@@ -10,6 +10,6 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-
-public @interface Before {
+public @interface Before{
+    int priority() default  1;
 }
