@@ -2,6 +2,7 @@ package ru.aryukov.arrayList;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Comparator;
 
 /**
  * Created by oaryukov on 20.04.2017.
@@ -151,6 +152,13 @@ public class MyArrayList<T> {
      */
     public int size() {
         return size;
+    }
+
+    public void sort(Comparator<? extends T> comparator){
+
+        T[] trimArray = Arrays.copyOfRange((T[]) conteiner, 0, size);
+        Arrays.sort(trimArray, (Comparator<? super T>) comparator);
+        System.arraycopy(trimArray, 0, conteiner, 0, trimArray.length);
     }
 
 }

@@ -3,7 +3,7 @@ package ru.aryukov.testfraimwork;
 /**
  * Created by oaryukov on 26.06.2017.
  */
-public class Assretation {
+public class Assertation {
 
     public static void assertEquals(String expected, String available){
         if(available.equals(expected)){

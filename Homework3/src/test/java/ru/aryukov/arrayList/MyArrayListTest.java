@@ -2,6 +2,8 @@ package ru.aryukov.arrayList;
 
 import org.junit.Test;
 
+import java.util.Comparator;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -61,5 +63,19 @@ public class MyArrayListTest {
         String result = myList.get(1);
         assertThat(result, is("five"));
         assertThat(myList.size(), is(4));
+    }
+
+    @Test
+    public void whenWeSort(){
+        MyArrayList<Integer> myList = new MyArrayList<>();
+        myList.add(10);
+        myList.add(7);
+        myList.add(15);
+        myList.add(2);
+        myList.sort(Comparator.naturalOrder());
+        assertThat(myList.get(0), is(2));
+        assertThat(myList.get(1), is(7));
+        assertThat(myList.get(2), is(10));
+        assertThat(myList.get(3), is(15));
     }
 }

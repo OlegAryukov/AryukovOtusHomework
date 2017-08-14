@@ -56,7 +56,6 @@ public class MainRunner {
         allClass.addAll(allBefore);
         allClass.addAll(allTest);
         allClass.addAll(allAfter);
-        //Set<Class<?>> allClass = reflections.getSubTypesOf(Object.class);
 
         run(allClass.toArray(new Class<?>[allClass.size()]));
     }

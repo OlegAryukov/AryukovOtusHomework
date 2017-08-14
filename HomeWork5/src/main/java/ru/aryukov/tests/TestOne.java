@@ -5,7 +5,7 @@ import com.sun.org.apache.xpath.internal.operations.String;
 import ru.aryukov.annotations.After;
 import ru.aryukov.annotations.Before;
 import ru.aryukov.annotations.Test;
-import ru.aryukov.testfraimwork.Assretation;
+import ru.aryukov.testfraimwork.Assertation;
 
 /**
  * Created by oaryukov on 26.06.2017.
@@ -20,12 +20,12 @@ public class TestOne {
     @Test
     void testTest(){
         System.out.println("Test @Test");
-        Assretation.assertEquals("Hi", "Hi");
+        Assertation.assertEquals("Hi", "Hi");
     }
 
     @After
     void afterTest(){
         System.out.println("Test @After");
-        Assretation.assertNotNull(new String());
+        Assertation.assertNotNull(new String());
     }
 }
