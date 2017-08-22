@@ -28,11 +28,11 @@ public class Container {
 
         allMethods = collection.stream()
                 .filter(methodPredicate)
-                //.toArray(Method[]::new);
                 .collect(Collectors.toList());
 
         return prepear(allMethods);
     }
+
      private List<Method> prepear(List<Method> list){
         Method[] array = list.toArray(new Method[list.size()]);
         for ( int i = 0; i < array.length; i++ ){

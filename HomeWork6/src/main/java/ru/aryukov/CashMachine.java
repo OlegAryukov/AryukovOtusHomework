@@ -54,7 +54,9 @@ public class CashMachine {
                 CashType.FIVE_HUNDRED.getLevel());
         OneHundredCashHandler oneHundredCashHandler = new OneHundredCashHandler(CashType.ONE_HUNDRED.getNominal(),
                 CashType.ONE_HUNDRED.getLevel());
-        FiftyCashHandler fiftyCashHandler = new FiftyCashHandler(CashType.FIFTY.getNominal(), CashType.FIFTY.getLevel());
+        FiftyCashHandler fiftyCashHandler = new FiftyCashHandler(CashType.FIFTY.getNominal(),
+                CashType.FIFTY.getLevel());
+
         fiveThousandCashHandler.setNext(oneThousandCashHandler);
         oneThousandCashHandler.setNext(fiveHundredCashHandler);
         fiveHundredCashHandler.setNext(oneHundredCashHandler);
