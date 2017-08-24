@@ -5,14 +5,14 @@ package ru.aryukov;
  */
 public class Sorter implements Runnable {
     private int[] a;
-    private int threadCount;
+    private int countOfThreads;
 
-    public Sorter(int[] a, int threadCount) {
+    public Sorter(int[] a, int countOfThreads) {
         this.a = a;
-        this.threadCount = threadCount;
+        this.countOfThreads = countOfThreads;
     }
 
     public void run() {
-        MergeSort.parallelMergeSort(a, threadCount);
+        MergeSort.parallelMergeSort(a, countOfThreads);
     }
 }
