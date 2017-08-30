@@ -30,7 +30,7 @@ public class MergeSort {
     }
 
     public static void parallelMergeSort(int[] a) {
-        int cores = 4;
+        int cores = 8;
         parallelMergeSort(a, cores);
     }
 
@@ -67,7 +67,8 @@ public class MergeSort {
         }
     }
 
-    public static void merge(int[] left, int[] right, int[] a) {
+    public static void
+    merge(int[] left, int[] right, int[] a) {
         int i1 = 0;
         int i2 = 0;
         for (int i = 0; i < a.length; i++) {
