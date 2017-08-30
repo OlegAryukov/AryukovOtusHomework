@@ -17,7 +17,7 @@
     <bean id="dbServiceUsage" class="webservice.DbServiceUsage">
     </bean>
 
-    <bean id="userCacheImpl" class="dbservice.impl.UserCacheImpl">
+    <bean id="userCache" class="ru.aryukov.cache.daoCacheImpl.UserEntityCacheImpl">
     </bean>
 
 </beans>

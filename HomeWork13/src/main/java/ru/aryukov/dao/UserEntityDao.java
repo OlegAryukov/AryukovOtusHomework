@@ -2,8 +2,11 @@ package ru.aryukov.dao;
 
 
 import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
 import ru.aryukov.cache.CacheElement;
 import ru.aryukov.cache.CacheEngine;
+import ru.aryukov.cache.UserEntityCache;
 import ru.aryukov.cache.cacheImpl.CacheEngineImpl;
 import ru.aryukov.domain.UserEntity;
 import ru.aryukov.util.HibernateUtil;
@@ -11,19 +14,13 @@ import ru.aryukov.util.HibernateUtil;
 /**
  * Created by dev on 17.07.17.
  */
+@Configurable
 public class UserEntityDao extends CommonDaoImpl<UserEntity, Integer> {
 
-    public static final int MAX_ELEMENTS = 300;
-    public static final long LIFE_TIMES_MS = 10000;
-    public static final long IDLE_TIME_MS = 10000;
+    @Autowired
+    private UserEntityCache dataCache;
 
-    protected CacheEngine<Integer, UserEntity> dataCache;
-
-    public void startUp(){
-        dataCache = new CacheEngineImpl<>(MAX_ELEMENTS, LIFE_TIMES_MS, IDLE_TIME_MS, false);
-    }
-
-    public CacheEngine<Integer, UserEntity> getCache(){
+    public UserEntityCache getCache(){
         return dataCache;
     }
 
@@ -45,5 +42,10 @@ public class UserEntityDao extends CommonDaoImpl<UserEntity, Integer> {
         Query query = HibernateUtil.getSession().createQuery("from UserEntity where name = :name").setParameter("name", name);
         userEntity = findOne(query);
         return userEntity;
+    }
+
+    @Override
+    public void startUp() {
+
     }
 }

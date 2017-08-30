@@ -1,9 +1,11 @@
 package ru.aryukov.cache;
 
+import ru.aryukov.domain.UserEntity;
+
 /**
  * Created by dev on 11.08.17.
  */
-public interface UserEntity {
+public interface UserEntityCache {
     int getHitCount();
     int getMissCount();
 

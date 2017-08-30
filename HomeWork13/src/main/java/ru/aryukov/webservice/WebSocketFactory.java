@@ -20,7 +20,7 @@ public class WebSocketFactory implements WebSocketCreator{
 
     @Override
     public Object createWebSocket(ServletUpgradeRequest req, ServletUpgradeResponse resp) {
-        CacheInfoSocket socket = new CacheInfoSocket(userCache);
+        CacheInfoServlet socket = new CacheInfoServlet(userCache);
         System.out.println("Socket created");
         return socket;
     }

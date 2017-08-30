@@ -101,7 +101,7 @@
                             <directory>public_html</directory>
                         </resource>
                         <resource>
-                            <directory>resource</directory>
+                            <directory>resource/spring</directory>
                             <targetPath>WEB-INF</targetPath>
                         </resource>
                     </webResources>

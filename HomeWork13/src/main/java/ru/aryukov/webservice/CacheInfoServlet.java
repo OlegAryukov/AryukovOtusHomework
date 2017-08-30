@@ -6,6 +6,7 @@ import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
+import org.springframework.beans.factory.annotation.Configurable;
 import ru.aryukov.cache.CacheEngine;
 import ru.aryukov.domain.UserEntity;
 
@@ -14,11 +15,11 @@ import java.io.IOException;
 /**
  * Created by dev on 08.08.17.
  */
-@WebSocket
-public class CacheInfoSocket {
+@Configurable
+public class CacheInfoServlet {
     private final CacheEngine<Integer, UserEntity> userCache;
 
-    public CacheInfoSocket(CacheEngine<Integer, UserEntity> userCache) {
+    public CacheInfoServlet(CacheEngine<Integer, UserEntity> userCache) {
         this.userCache = userCache;
     }
 

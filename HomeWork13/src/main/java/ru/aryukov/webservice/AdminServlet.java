@@ -1,8 +1,13 @@
 package ru.aryukov.webservice;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 import ru.aryukov.cache.CacheEngine;
+import ru.aryukov.cache.UserEntityCache;
 import ru.aryukov.domain.UserEntity;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -14,17 +19,24 @@ import java.util.Map;
 /**
  * Created by dev on 08.08.17.
  */
+@Configurable
 public class AdminServlet extends HttpServlet {
     private static final String ADMIN_PAGE_TEMPLATE = "adminPage.html";
-    private final CacheEngine<Integer, UserEntity> userCache;
+    //private final CacheEngine<Integer, UserEntityCache> userCache;
 
+    @Autowired
+    private UserEntityCache userEntityCache;
 
-    public AdminServlet(CacheEngine<Integer, UserEntity> userCache) {
-        this.userCache = userCache;
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
     }
 
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
+
+        System.out.println("get request");
 
         if (request.getSession().getAttribute("login") != null) {
             response.getWriter().println(getPage(request));
@@ -43,8 +55,8 @@ public class AdminServlet extends HttpServlet {
         pageVariables.put("sessionId", request.getSession().getId());
         pageVariables.put("parameters", request.getParameterMap().toString());
 
-        pageVariables.put("hitCount", userCache.getHitCount());
-        pageVariables.put("missCount", userCache.getMissCount());
+        pageVariables.put("hitCount", userEntityCache.getHitCount());
+        pageVariables.put("missCount", userEntityCache.getMissCount());
 
 
         //let's get login from session
@@ -58,4 +70,5 @@ public class AdminServlet extends HttpServlet {
         final Map<String, Object> pageVariables = createPageVariablesMap(request);
         return TemplateProcessor.instance().getPage(ADMIN_PAGE_TEMPLATE, pageVariables);
     }
+
 }

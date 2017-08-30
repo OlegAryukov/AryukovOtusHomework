@@ -2,16 +2,17 @@ package ru.aryukov.cache.daoCacheImpl;
 
 import ru.aryukov.cache.CacheElement;
 import ru.aryukov.cache.CacheEngine;
-import ru.aryukov.cache.UserEntity;
+import ru.aryukov.cache.UserEntityCache;
 import ru.aryukov.cache.cacheImpl.CacheEngineImpl;
 import ru.aryukov.dao.UserEntityDao;
+import ru.aryukov.domain.UserEntity;
 
 import java.util.concurrent.TimeUnit;
 
 /**
  * Created by dev on 11.08.17.
  */
-public class UserEntityCache implements UserEntity {
+public class UserEntityCacheImpl implements UserEntityCache {
 
     public static final int MAX_ELEMENTS = 300;
     public static final long LIFE_TIMES_M = 10;
@@ -19,7 +20,7 @@ public class UserEntityCache implements UserEntity {
 
     private CacheEngine<Long, UserEntityDao> userCache;
 
-    public UserEntityCache() {
+    public UserEntityCacheImpl() {
         userCache = new CacheEngineImpl<>(MAX_ELEMENTS,
                 TimeUnit.MINUTES.toMillis(LIFE_TIMES_M),
                 TimeUnit.MINUTES.toMillis(IDLE_TIME_M),
@@ -28,12 +29,12 @@ public class UserEntityCache implements UserEntity {
 
     @Override
     public int getHitCount() {
-        return 0;
+        return userCache.getHitCount();
     }
 
     @Override
     public int getMissCount() {
-        return 0;
+        return userCache.getMissCount();
     }
 
     @Override
