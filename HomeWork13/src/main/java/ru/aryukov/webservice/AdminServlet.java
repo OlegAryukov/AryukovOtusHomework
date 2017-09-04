@@ -3,9 +3,7 @@ package ru.aryukov.webservice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
-import ru.aryukov.cache.CacheEngine;
 import ru.aryukov.cache.UserEntityCache;
-import ru.aryukov.domain.UserEntity;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -22,7 +20,6 @@ import java.util.Map;
 @Configurable
 public class AdminServlet extends HttpServlet {
     private static final String ADMIN_PAGE_TEMPLATE = "adminPage.html";
-    //private final CacheEngine<Integer, UserEntityCache> userCache;
 
     @Autowired
     private UserEntityCache userEntityCache;

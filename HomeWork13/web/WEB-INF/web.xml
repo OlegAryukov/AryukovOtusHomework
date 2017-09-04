@@ -22,7 +22,7 @@
 
     <servlet>
         <servlet-name>getCachInfo</servlet-name>
-        <servlet-class>ru.aryukov.webservice.CachInfoServlet</servlet-class>
+        <servlet-class>ru.aryukov.webservice.CacheInfoServlet</servlet-class>
     </servlet>
 
 

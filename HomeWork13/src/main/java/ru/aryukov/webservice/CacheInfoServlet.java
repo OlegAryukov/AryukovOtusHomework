@@ -1,56 +1,49 @@
 package ru.aryukov.webservice;
 
 import com.google.gson.Gson;
-import org.eclipse.jetty.websocket.api.Session;
-import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
-import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
-import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
-import org.eclipse.jetty.websocket.api.annotations.WebSocket;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
-import ru.aryukov.cache.CacheEngine;
-import ru.aryukov.domain.UserEntity;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
+import ru.aryukov.dao.UserEntityDao;
 
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
  * Created by dev on 08.08.17.
  */
 @Configurable
-public class CacheInfoServlet {
-    private final CacheEngine<Integer, UserEntity> userCache;
+public class CacheInfoServlet extends HttpServlet {
 
-    public CacheInfoServlet(CacheEngine<Integer, UserEntity> userCache) {
-        this.userCache = userCache;
+    @Autowired
+    private UserEntityDao userEntityDao;
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
     }
 
-    @OnWebSocketMessage
-    public void onMessage(String data) {
-        System.out.println("gettig message:" + data);
-    }
+    public void doGet(HttpServletRequest request,
+                      HttpServletResponse response) throws ServletException, IOException {
 
-    @OnWebSocketConnect
-    public void onOpen(Session session) {
-        sendData(session);
-        System.out.println("onOpen");
-    }
+        System.out.println("get request");
+        if (request.getSession().getAttribute("login") != null) {
 
-    private void sendData(Session session) {
-        while(true) {
-            try {
-                final CacheInfo cacheInfo = new CacheInfo(userCache.getHitCount(), userCache.getMissCount());
-                final String data = new Gson().toJson(cacheInfo);
-                session.getRemote().sendString(data);
-                System.out.println("Sending message:" + data);
-                Thread.sleep(1000);
-            } catch (IOException | InterruptedException e) {
-                e.printStackTrace();
-            }
+            final CacheInfo cachInfo = new CacheInfo(userEntityDao.getCache().getHitCount(),
+                    userEntityDao.getCache().getMissCount());
+            final String data = new Gson().toJson(cachInfo);
+            System.out.println("Sending message:" + data);
+            response.getWriter().println(data);
+            new ResponseHelper().responseOK(response);
+        } else {
+            response.sendRedirect("/warAppl/accessDenied.html");
+            new ResponseHelper().responseFORBIDDEN(response);
         }
-    }
-
-    @OnWebSocketClose
-    public void onClose(int statusCode, String reason) {
-        System.out.println("onClose");
     }
 
     class CacheInfo {

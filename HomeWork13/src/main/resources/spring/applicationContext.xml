@@ -10,14 +10,14 @@
 		http://www.springframework.org/schema/context/spring-context-3.2.xsd">
 
     <context:component-scan base-package="ru.aryukov.webservice"></context:component-scan>
-    <context:component-scan base-package="ru.aryukov.dbservice"></context:component-scan>
+    <context:component-scan base-package="ru.aryukov"></context:component-scan>
     <context:annotation-config/>
     <context:spring-configured/>
 
-    <bean id="dbServiceUsage" class="webservice.DbServiceUsage">
+    <bean id="userDao" class="ru.aryukov.dao.UserEntityDao">
     </bean>
 
-    <bean id="userCache" class="ru.aryukov.cache.daoCacheImpl.UserEntityCacheImpl">
+    <bean id="userEntityDao" class="ru.aryukov.cache.daoCacheImpl.UserEntityCacheImpl">
     </bean>
 
 </beans>

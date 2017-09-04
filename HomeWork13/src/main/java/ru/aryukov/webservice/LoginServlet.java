@@ -12,7 +12,6 @@ import java.io.IOException;
  */
 public class LoginServlet extends HttpServlet {
     public static final String LOGIN_PARAMETER_NAME = "login";
-    private static final String LOGIN_VARIABLE_NAME = "login";
     private static final String ADMIN_NAME = "admin";
 
     private String login;
