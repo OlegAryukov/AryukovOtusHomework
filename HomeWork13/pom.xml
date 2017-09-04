@@ -15,16 +15,22 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.assembly.plugin.version>3.0.0</maven.assembly.plugin.version>
-        <jetty.version>9.4.6.v20170531</jetty.version>
+        <jetty.version>9.4.5.v20170502</jetty.version>
         <spring.version>4.3.9.RELEASE</spring.version>
     </properties>
 
     <artifactId>HomeWork13</artifactId>
     <dependencies>
         <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+            <version>RELEASE</version>
+        </dependency>
+        <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>42.0.0</version>
+            <version>42.1.1</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -36,6 +42,7 @@
             <artifactId>freemarker</artifactId>
             <version>2.3.20</version>
         </dependency>
+
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-server</artifactId>
@@ -49,17 +56,6 @@
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-rewrite</artifactId>
-            <version>${jetty.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.eclipse.jetty.websocket</groupId>
-            <artifactId>websocket-servlet</artifactId>
-            <version>${jetty.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.jetty.websocket</groupId>
-            <artifactId>websocket-server</artifactId>
             <version>${jetty.version}</version>
         </dependency>
         <dependency>
@@ -90,19 +86,19 @@
     </dependencies>
 
     <build>
-        <finalName>HomeWork13</finalName>
+        <finalName>HW13</finalName>
 
         <plugins>
             <plugin>
                 <artifactId>maven-war-plugin</artifactId>
                 <configuration>
-                    <webXml>web/WEB-INF/web.xml</webXml>
+                    <webXml>src/main/resources/WEB-INF/web.xml</webXml>
                     <webResources>
                         <resource>
-                            <directory>public_html</directory>
+                            <directory>web</directory>
                         </resource>
                         <resource>
-                            <directory>D:\JavaCourse\MyCod\Otus\HomeWork13\src\main\resources\spring</directory>
+                            <directory>context</directory>
                             <targetPath>WEB-INF</targetPath>
                         </resource>
                     </webResources>

@@ -14,26 +14,24 @@ import java.util.Map;
  * Created by dev on 08.08.17.
  */
 public class TemplateProcessor {
-    private static final String HTML_DIR = "/HomeWork13/tml";
     private static TemplateProcessor instance = new TemplateProcessor();
 
     private final Configuration configuration;
 
-    public static TemplateProcessor instance() {
+    private TemplateProcessor() {
+        configuration = new Configuration();
+        configuration.setClassForTemplateLoading(this.getClass(), "/WEB-INF/classes/tml/");
+    }
+
+    static TemplateProcessor instance() {
         return instance;
     }
 
-    private TemplateProcessor() {
-        configuration = new Configuration();
-    }
-
-    public String getPage(String filename, Map<String, Object> data) throws IOException {
-        try {
-            Writer stream = new StringWriter();
-            Template template = configuration.getTemplate(HTML_DIR + File.separator + filename);
+    String getPage(String filename, Map<String, Object> data) throws IOException {
+        try (Writer stream = new StringWriter()) {
+            Template template = configuration.getTemplate(filename);
             template.process(data, stream);
             return stream.toString();
-
         } catch (TemplateException e) {
             throw new IOException(e);
         }

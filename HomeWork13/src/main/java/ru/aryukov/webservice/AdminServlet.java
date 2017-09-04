@@ -24,6 +24,9 @@ public class AdminServlet extends HttpServlet {
     @Autowired
     private UserEntityCache userEntityCache;
 
+    public AdminServlet() {
+    }
+
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
@@ -39,7 +42,7 @@ public class AdminServlet extends HttpServlet {
             response.getWriter().println(getPage(request));
             new ResponseHelper().responseOK(response);
         } else {
-            response.sendRedirect("/accessDenied.html");
+            response.sendRedirect("/HomeWork13/accessDenied.html");
             new ResponseHelper().responseFORBIDDEN(response);
         }
     }
