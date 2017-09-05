@@ -28,12 +28,12 @@
 
     <servlet-mapping>
         <servlet-name>login</servlet-name>
-        <url-pattern>/HW13/login</url-pattern>
+        <url-pattern>/login</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
         <servlet-name>admin</servlet-name>
-        <url-pattern>/HW13/admin</url-pattern>
+        <url-pattern>/admin</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>

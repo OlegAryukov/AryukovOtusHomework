@@ -42,7 +42,7 @@ public class AdminServlet extends HttpServlet {
             response.getWriter().println(getPage(request));
             new ResponseHelper().responseOK(response);
         } else {
-            response.sendRedirect("/HomeWork13/accessDenied.html");
+            response.sendRedirect("/HW13/accessDenied.html");
             new ResponseHelper().responseFORBIDDEN(response);
         }
     }

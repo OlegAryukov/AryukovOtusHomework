@@ -41,7 +41,7 @@ public class CacheInfoServlet extends HttpServlet {
             response.getWriter().println(data);
             new ResponseHelper().responseOK(response);
         } else {
-            response.sendRedirect("/warAppl/accessDenied.html");
+            response.sendRedirect("/HW13/accessDenied.html");
             new ResponseHelper().responseFORBIDDEN(response);
         }
     }

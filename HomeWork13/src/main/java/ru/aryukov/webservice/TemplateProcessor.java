@@ -20,7 +20,7 @@ public class TemplateProcessor {
 
     private TemplateProcessor() {
         configuration = new Configuration();
-        configuration.setClassForTemplateLoading(this.getClass(), "/WEB-INF/classes/tml/");
+        configuration.setClassForTemplateLoading(this.getClass(), "/tml/");
     }
 
     static TemplateProcessor instance() {

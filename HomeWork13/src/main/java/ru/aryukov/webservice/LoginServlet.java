@@ -29,7 +29,7 @@ public class LoginServlet extends HttpServlet {
             saveToServlet(request, requestLogin);
             saveToCookie(response, requestLogin);
 
-            response.sendRedirect("/HW13/admin");
+            response.sendRedirect("/admin");
             new ResponseHelper().responseOK(response);
         } else {
             response.sendRedirect("/HW13/accessDenied.html");
