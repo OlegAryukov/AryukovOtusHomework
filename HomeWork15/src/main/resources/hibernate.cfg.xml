@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+
+    <session-factory>
+        <property name="connection.url">jdbc:postgresql://127.0.0.1:5432/otus</property>
+        <property name="connection.driver_class">org.postgresql.Driver</property>
+        <property name="connection.username">postgres</property>
+        <property name="connection.password">500NSczx</property>
+        <property name="connection.pool_size">1</property>
+        <property name="current_session_context_class">thread</property>
+        <property name="dialect">org.hibernate.dialect.PostgreSQL95Dialect</property>
+        <!--<property name="show_sql">true</property>-->
+        <!--<property name="format_sql">true</property>-->
+
+        <mapping class="ru.aryukov.domain.UserEntity"/>
+        <mapping class="ru.aryukov.domain.UserAddressEntity"/>
+        <mapping class="ru.aryukov.domain.UserPhoneEntity"/>
+
+    </session-factory>
+
+</hibernate-configuration>
